@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Club - Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-particles"></div>
+    <div class="background-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">File Club</span>
+            </div>
+            <div class="nav-controls">
+                <div class="theme-dropdown">
+                    <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+                    <div class="theme-menu" id="themeMenu"></div>
+                </div>
+                <a href="home.html" class="nav-link">🏠 Home</a>
+                <a href="games.html" class="nav-link">🎮 Games</a>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chat Section -->
+    <section class="chat-section">
+        <div class="chat-container">
+            <h1 class="section-title">💬 Community Chat</h1>
+            
+            <div class="chat-box">
+                <div class="messages" id="messagesContainer"></div>
+            </div>
+
+            <div class="message-input-container">
+                <!-- Username Toggle -->
+                <div class="message-username-toggle">
+                    <div>
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Anonymous Mode</span>
+                        <div class="username-toggle-switch" id="usernameToggle">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="customUsername"
+                        placeholder="Enter your username..."
+                        maxlength="20"
+                        style="display: none; flex: 1; padding: 0.6rem; background: rgba(20, 30, 60, 0.6); border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 6px; color: var(--text-primary);"
+                    >
+                </div>
+
+                <form id="messageForm" onsubmit="sendMessage(event)">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Type a message..." 
+                        maxlength="200"
+                        required
+                    >
+                    <button type="submit" class="send-btn">Send</button>
+                </form>
+            </div>
+
+            <button class="clear-chat-btn" onclick="clearChatHistory()">Clear Chat History</button>
+        </div>
+    </section>
+
+    <!-- Color Customizer Modal -->
+    <div id="customizerModal" class="customizer-modal">
+        <div class="customizer-content">
+            <div class="customizer-header">
+                <h2>🎨 Customize Theme</h2>
+                <button class="customizer-close">✕</button>
+            </div>
+            
+            <div class="color-picker-group">
+                <label class="color-picker-label">Primary Color (Accents & Glow)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primaryColorInput" class="color-input" data-color-input="primary">
+                    <div class="color-value" id="primaryDisplay">#00d9ff</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Secondary Color (Highlights)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondaryColorInput" class="color-input" data-color-input="secondary">
+                    <div class="color-value" id="secondaryDisplay">#ff006e</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Green Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="greenColorInput" class="color-input" data-color-input="green">
+                    <div class="color-value" id="greenDisplay">#39ff14</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Purple Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="purpleColorInput" class="color-input" data-color-input="purple">
+                    <div class="color-value" id="purpleDisplay">#b366ff</div>
+                </div>
+            </div>
+
+            <div class="customizer-actions">
+                <button class="customizer-btn customizer-save">💾 Save Theme</button>
+                <button class="customizer-btn customizer-reset">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="auth.js"></script>
+    <script src="chat.js"></script>
+    <script>
+        // Example sponsor boxes (replace the old quick button)
+        (function () {
+            if (document.getElementById('sponsorExampleBox')) return;
+
+            var wrap = document.createElement('div');
+            wrap.id = 'sponsorExampleBox';
+            wrap.style.position = 'fixed';
+            wrap.style.top = '130px';
+            wrap.style.right = '16px';
+            wrap.style.zIndex = '200001';
+            wrap.style.width = '260px';
+            wrap.style.pointerEvents = 'auto';
+
+            wrap.innerHTML = [
+              '<div style="margin-bottom:10px; padding:12px; border-radius:12px; background:rgba(10,14,39,0.88); border:1px solid rgba(0,217,255,0.25); backdrop-filter:blur(10px); box-shadow:0 10px 30px rgba(0,0,0,0.35);">',
+              '<div style="color:#fff; font-weight:900; font-size:14px; margin-bottom:6px;">Do you want your ad here?</div>',
+              '<a href="sponsor.html" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--primary-color); font-weight:800; text-decoration:none;">Click here to learn more →</a>',
+              '</div>',
+            ].join('');
+
+
+            document.body.appendChild(wrap);
+
+        })();
+    </script>
+</body>
+</html>
+
+

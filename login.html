@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Club - Access</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-particles"></div>
+    <div class="background-glow"></div>
+
+    <!-- Theme Selector for Login -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; gap: 1rem;">
+        <div class="theme-dropdown">
+            <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+            <div class="theme-menu" id="themeMenu"></div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-login">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">File Club</span>
+            </div>
+            
+            <h1>Access Code Required</h1>
+            <p class="pin-subtitle">Enter the access code to continue</p>
+            
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="password">Access Code</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter code" 
+                        required
+                    >
+                </div>
+                
+                <button type="submit" class="login-btn">Enter</button>
+            </form>
+
+            <div id="errorMsg" class="error-msg"></div>
+            
+            <button class="back-btn" onclick="goBack()">Back</button>
+        </div>
+    </div>
+
+    <!-- Color Customizer Modal -->
+    <div id="customizerModal" class="customizer-modal">
+        <div class="customizer-content">
+            <div class="customizer-header">
+                <h2>🎨 Customize Theme</h2>
+                <button class="customizer-close">✕</button>
+            </div>
+            
+            <div class="color-picker-group">
+                <label class="color-picker-label">Primary Color (Accents & Glow)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primaryColorInput" class="color-input" data-color-input="primary">
+                    <div class="color-value" id="primaryDisplay">#00d9ff</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Secondary Color (Highlights)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondaryColorInput" class="color-input" data-color-input="secondary">
+                    <div class="color-value" id="secondaryDisplay">#ff006e</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Green Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="greenColorInput" class="color-input" data-color-input="green">
+                    <div class="color-value" id="greenDisplay">#39ff14</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Purple Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="purpleColorInput" class="color-input" data-color-input="purple">
+                    <div class="color-value" id="purpleDisplay">#b366ff</div>
+                </div>
+            </div>
+
+            <div class="customizer-actions">
+                <button class="customizer-btn customizer-save">💾 Save Theme</button>
+                <button class="customizer-btn customizer-reset">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Password is encoded
+        const accessCode = atob('MDEyMzEy'); // Base64 encoded
+        
+        document.getElementById('passwordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (password === accessCode) {
+                errorMsg.textContent = 'Access granted!';
+                errorMsg.classList.add('success');
+                localStorage.setItem('authenticated', 'true');
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 800);
+            } else {
+                errorMsg.textContent = 'Incorrect access code';
+                document.getElementById('password').value = '';
+            }
+        });
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

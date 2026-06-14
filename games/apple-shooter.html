@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple Shooter - Unblocked Games</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: black;
+    }
+
+    .fullscreen-home-btn {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 9999;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: rgba(10, 14, 39, 0.85);
+      color: #ffffff;
+      border: 1px solid rgba(0, 217, 255, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(10px);
+      font-size: 20px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .fullscreen-home-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(10, 14, 39, 0.95);
+    }
+
+    iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <a href="../home.html" class="fullscreen-home-btn" aria-label="Home" title="Home" onclick="handleHomeClick(event)">🏠</a>
+
+  <iframe
+    src="https://www.miniplay.com/embed/basketball-superstars"
+    width="100%"
+    height="100%"
+    style="border:none; position:fixed; top:0; left:0;"
+    allowfullscreen
+  ></iframe>
+
+  <script>
+    function handleHomeClick(e) {
+      // Prevent browser leave confirmation.
+      try {
+        if (e) e.preventDefault();
+      } catch (err) {}
+      window.location.href = '../home.html';
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+      // Remove confirmation prompts; leave normally.
+      try {
+        if (e) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      } catch (err) {}
+    });
+  </script>
+
+</body>
+</html>
+

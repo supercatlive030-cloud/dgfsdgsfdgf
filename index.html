@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael's Learning Community</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-particles"></div>
+    <div class="background-glow"></div>
+
+    <!-- Learning Website -->
+    <nav class="learning-navbar">
+        <div class="nav-container">
+            <div class="learning-logo">
+                <span>📚</span>
+                <span>Michael's Learning Community</span>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div class="theme-dropdown">
+                    <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+                    <div class="theme-menu" id="themeMenu"></div>
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:center;">
+                <a href="admin.html" class="nav-link" style="color: var(--text-secondary); text-decoration:none; font-weight:500;">🔧 Admin</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="learning-hero">
+        <div class="hero-content">
+            <h1>Welcome to Our Learning Community</h1>
+            <p>Explore educational resources and grow together</p>
+        </div>
+    </section>
+
+    <section class="learning-section">
+        <div class="section-container">
+            <h2>Our Courses</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <span class="course-icon">🎓</span>
+                    <h3>Computer Science 101</h3>
+                    <p>Learn the fundamentals of programming and algorithms</p>
+                </div>
+                <div class="course-card">
+                    <span class="course-icon">📖</span>
+                    <h3>English Literature</h3>
+                    <p>Explore classic and modern literature</p>
+                </div>
+                <div class="course-card">
+                    <span class="course-icon">🔬</span>
+                    <h3>Science & Nature</h3>
+                    <p>Discover the wonders of science</p>
+                </div>
+                <div class="course-card">
+                    <span class="course-icon">🎨</span>
+                    <h3>Creative Arts</h3>
+                    <p>Express yourself through art and design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="auth.js"></script>
+    <script>
+        // Keyboard shortcut: Press 'S' three times quickly to access secret area
+        let keyPresses = '';
+        let lastKeyTime = 0;
+        let triggerCooldown = false;
+        
+        document.addEventListener('keydown', (e) => {
+            // Hard gate: only trigger when user focuses the body (not inputs),
+            // and only when exactly 3 DOWN events happen within 900ms.
+            if (triggerCooldown) return;
+            const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
+            if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
+            if (e.repeat) return;
+
+            const key = (e.key || '').toLowerCase();
+            if (key !== 's') return;
+
+            const now = Date.now();
+
+            // If first press or too slow, reset buffer
+            if (!lastKeyTime || (now - lastKeyTime) > 900) {
+                keyPresses = '';
+            }
+
+            keyPresses += 's';
+            lastKeyTime = now;
+
+            if (keyPresses.length > 3) {
+                keyPresses = keyPresses.slice(-3);
+            }
+
+            if (keyPresses === 'sss') {
+                triggerCooldown = true;
+                keyPresses = '';
+                lastKeyTime = 0;
+
+                // Small delay to allow key state to settle
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 200);
+            }
+        });
+    </script>
+
+    <!-- Color Customizer Modal -->
+    <div id="customizerModal" class="customizer-modal">
+        <div class="customizer-content">
+            <div class="customizer-header">
+                <h2>🎨 Customize Theme</h2>
+                <button class="customizer-close">✕</button>
+            </div>
+            
+            <div class="color-picker-group">
+                <label class="color-picker-label">Primary Color (Accents & Glow)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primaryColorInput" class="color-input" data-color-input="primary">
+                    <div class="color-value" id="primaryDisplay">#00d9ff</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Secondary Color (Highlights)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondaryColorInput" class="color-input" data-color-input="secondary">
+                    <div class="color-value" id="secondaryDisplay">#ff006e</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Green Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="greenColorInput" class="color-input" data-color-input="green">
+                    <div class="color-value" id="greenDisplay">#39ff14</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Purple Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="purpleColorInput" class="color-input" data-color-input="purple">
+                    <div class="color-value" id="purpleDisplay">#b366ff</div>
+                </div>
+            </div>
+
+            <div class="customizer-actions">
+                <button class="customizer-btn customizer-save">💾 Save Theme</button>
+                <button class="customizer-btn customizer-reset">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="auth.js"></script>
+    <script src="ads.js"></script>
+

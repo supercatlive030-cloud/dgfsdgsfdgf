@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://playgama.com" crossorigin="">
+    <link rel="preconnect" href="https://securepubads.g.doubleclick.net" crossorigin="">
+    <link rel="preconnect" href="https://imasdk.googleapis.com" crossorigin="">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="preconnect" href="https://fnf.kdata1.com" crossorigin="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Friday Night Funkin - Unblocked Games</title>
+    <style>
+        * { margin:0; padding:0; }
+        html, body, .game-area, #innergame { touch-action:none; -ms-touch-action:none; }
+        html, body { width:100%; height:100%; overflow:hidden; overscroll-behavior:none; background:#000; display:flex; align-items:center; justify-content:center; }
+        body { flex-direction:column; }
+        #nav { height:40px; width:100%; background:#1a1a1a; display:flex; align-items:center; justify-content:flex-end; padding:0 10px; z-index:10; flex-shrink:0; box-sizing:border-box; }
+        #nav button { background:#222; border:1px solid #444; color:#fff; font-size:0.85rem; cursor:pointer; padding:6px 16px; border-radius:20px; font-family:sans-serif; letter-spacing:0.5px; }
+        .game-area { flex:1; width:100%; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        iframe { border:none; display:block; }
+        #innergame { width:0; height:0; }
+        .btn-home { position: absolute; top: 10px; left: 10px; background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; z-index: 20; }
+        .btn-home:hover { background: #764ba2; }
+    </style>
+</head>
+<body>
+<a href="../home.html" class="btn-home">🏠 Home</a>
+
+<div class="game-area">
+<iframe id="innergame" scrolling="no" allow="autoplay; fullscreen; microphone" allowfullscreen=""></iframe>
+</div>
+<div class="playbutton-overlay" id="kbh-play-overlay" role="button" aria-label="Play Now" style="position:fixed;inset:0;background:#181818;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;cursor:pointer;overflow:hidden;z-index:2147483002;-webkit-tap-highlight-color:transparent;user-select:none;font-family:sans-serif;color:#ededed;">
+  <span class="btnplaynow" style="background:linear-gradient(180deg,#43a047,#2e7d32);border:none;border-radius:12px;padding:14px 24px;color:#fff;box-shadow:0 4px 0 #1b5e20,0 6px 20px rgba(0,0,0,.4);transition:all .15s ease;text-shadow:0 2px 4px rgba(0,0,0,.3);font-size:50px;line-height:1;">► Play Now!</span>
+</div>
+<script>
+  var gw = 960;
+  var gh = 540;
+  function sizeGame() {
+    if (!gw || !gh) return;
+    var area = document.querySelector('.game-area');
+    var iframe = document.getElementById('innergame');
+    if (!area || !iframe) return;
+    var cw = area.clientWidth;
+    var ch = area.clientHeight;
+    var scale = Math.min(cw / gw, ch / gh);
+    iframe.style.width = Math.floor(gw * scale) + 'px';
+    iframe.style.height = Math.floor(gh * scale) + 'px';
+  }
+  sizeGame();
+  window.addEventListener('resize', sizeGame);
+  function b(e){e.preventDefault();}
+  document.addEventListener('touchmove',function(e){
+    if(e.touches.length>1||(e.scale!==undefined&&e.scale!==1))e.preventDefault();
+  },{passive:false});
+  document.addEventListener('touchstart',function(e){if(e.touches.length>1)e.preventDefault();},{passive:false});
+  document.addEventListener('gesturestart',b);
+  document.addEventListener('gesturechange',b);
+  document.addEventListener('gestureend',b);
+</script>
+<script>
+(function(){
+  var overlay = document.getElementById('kbh-play-overlay');
+  var frame   = document.getElementById('innergame');
+  var gameUrl = "https:\/\/fnf.kdata1.com\/2026\/fnf-kbhgames\/desktop\/4.65\/";
+  var gameLoading = false;
+
+  function startGameLoad(){
+    if (gameLoading) return;
+    gameLoading = true;
+    frame.addEventListener('load', function(){
+      overlay.style.display = 'none';
+      sizeGame();
+    }, { once: true });
+    frame.src = gameUrl;
+  }
+
+  function fireAdOnce(e){
+    if (gameLoading) return;
+    if (e && e.preventDefault) e.preventDefault();
+    startGameLoad();
+  }
+  
+  overlay.addEventListener('pointerup', fireAdOnce, { once: true });
+  overlay.addEventListener('click',     fireAdOnce, { once: true });
+  
+  setTimeout(startGameLoad, 3000);
+})();
+</script>
+
+<script>
+  // Go back to home while playing, except for disguise games.
+  window.addEventListener('beforeunload', (e) => {
+    try {
+      // Don't force-redirect when leaving; user uses Home button.
+      if (e && e.preventDefault) e.preventDefault();
+    } catch (err) {}
+  });
+
+</script>
+
+</body>
+</html>
+

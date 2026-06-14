@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Club - Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-particles"></div>
+  <div class="background-glow"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">File Club Admin</span>
+      </div>
+      <div class="nav-controls">
+        <a href="home.html" class="nav-link">🏠 Home</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content" style="max-width: 520px;">
+      <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Upload Sponsor Ad</h1>
+      <p class="hero-subtitle" style="margin-bottom: 1.5rem;">
+        Password-protected admin panel.
+      </p>
+
+    <div id="adminFormWrap" class="login-card" style="margin: 0 auto;">
+
+        <div class="logo-login" style="font-size: 1.6rem; margin-bottom: 1.5rem;">
+          🔐 Admin Access
+        </div>
+
+        <form id="adminPasswordForm">
+          <div class="form-group">
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter admin password" required />
+          </div>
+          <button type="submit" class="login-btn">Enter</button>
+          <div id="adminError" class="error-msg" style="display:none;"></div>
+        </form>
+      </div>
+
+      <div id="adminPanel" style="display:none; max-width: 720px; margin: 0 auto;">
+        <div class="login-card" style="padding: 2.2rem 2rem;">
+          <div class="logo-login" style="font-size: 1.6rem; margin-bottom: 1.5rem;">
+            📢 Sponsor Ad Settings
+          </div>
+
+          <p class="pin-subtitle" style="margin-bottom: 1.5rem; font-size: 0.95rem;">
+            Paste an ad URL (image or link) and it will appear on every page in the top-right corner.
+          </p>
+
+          <form id="adForm">
+            <div class="form-group">
+              <label for="adLink">Ad Link (optional)</label>
+              <input type="url" id="adLink" placeholder="https://example.com" />
+            </div>
+
+            <div class="form-group">
+              <label for="adImage">Ad Image URL</label>
+              <input type="url" id="adImage" placeholder="https://example.com/ad.png" required />
+            </div>
+
+            <div class="form-group">
+              <label for="adText">Or Ad Text (optional)</label>
+              <input type="text" id="adText" placeholder="Buy now!" />
+            </div>
+
+            <button type="submit" class="login-btn" style="margin-top: 0.5rem;">Save Ad</button>
+            <button type="button" id="clearAdBtn" class="back-btn" style="margin-top: 0.8rem;">Clear Ad</button>
+          </form>
+
+          <div style="margin-top: 1.2rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+            <b>How to show:</b> Provide either <i>Ad Image URL</i> or <i>Ad Text</i>.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.2rem; color: var(--text-secondary); font-size: 0.85rem; text-align:center;">
+        Note: ads are stored in your browser's localStorage (simple demo setup).
+      </div>
+    </div>
+  </section>
+
+  <script src="admin.js"></script>
+</body>
+</html>
+
+
+

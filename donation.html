@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Club - Donation</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-particles"></div>
+  <div class="background-glow"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">File Club</span>
+      </div>
+      <div class="nav-controls">
+        <a href="home.html" class="nav-link">🏠 Home</a>
+        <a href="games.html" class="nav-link">🎮 Games</a>
+        <a href="chat.html" class="nav-link">💬 Chat</a>
+        <a href="admin.html" class="nav-link">🔧 Admin</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <section class="hero" style="margin-top: 96px;">
+    <div class="hero-content" style="max-width: 980px;">
+      <h1 class="hero-title" style="font-size: 3rem;">Make a Donation 💜</h1>
+      <p class="hero-subtitle" style="max-width: 720px; margin-left: auto; margin-right: auto;">
+        Donations help keep the site fast and growing. Pick a method below.
+      </p>
+
+      <div class="featured-banner" style="margin-top: 1.8rem;">
+        <div class="featured-content" style="justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+          <div class="featured-text" style="min-width: 320px;">
+            <h3 style="margin-bottom: 0.6rem;">Your support powers new games</h3>
+            <p style="margin-bottom: 0;">
+            </p>
+          </div>
+
+          <div style="display:flex; flex-direction: column; gap: 0.8rem; min-width: 320px;">
+            <a class="send-btn" style="text-align:center; text-decoration:none;" href="https://example.com/donate" target="_blank" rel="noopener noreferrer">
+              Donate via Link (replace this URL)
+            </a>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+              Put your real donation link (PayPal/Stripe/Ko-fi/etc.) here.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+        <div class="login-card" style="margin: 0; padding: 2rem 2rem; max-width: none;">
+          <div class="logo-login" style="font-size: 1.6rem; margin-bottom: 1rem;">⭐ Donation Goals</div>
+          <ul style="color: var(--text-secondary); line-height: 1.9; padding-left: 1.1rem;">
+            <li><b>$5</b>: shoutout and get to be put on the donation shoutout</li>
+            <li><b>$25</b>: crown on the side of your name in the chat for a week</li>
+            <li><b>$50</b>: gets all of the above + a message on the home page</li>
+          </ul>
+        </div>
+
+        <div class="login-card" style="margin: 0; padding: 2rem 2rem; max-width: none;">
+          <div class="logo-login" style="font-size: 1.6rem; margin-bottom: 1rem;">📬 Want to sponser?</div>
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            want me to put your ad up instead? go to the sponser page, get my email and we can work out a deal together.
+          </p>
+          <a class="send-btn" style="text-align:center; text-decoration:none;" href="sponsor.html" target="_blank" rel="noopener noreferrer">
+            Click here to sponsor/message
+          </a>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.6rem; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+        <b>Note:</b> if you donate, email me with a screen shot of the receipt and your name (or anonymous) so I can add you to the donation shoutout list. Thanks for your support!
+      </div>
+    </div>
+  </section>
+
+  <script src="theme.js"></script>
+  <script src="ads.js"></script>
+
+</body>
+</html>
+

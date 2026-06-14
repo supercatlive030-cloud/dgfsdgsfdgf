@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Club - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-particles"></div>
+    <div class="background-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">File Club</span>
+            </div>
+            <div class="nav-controls">
+                <div class="theme-dropdown">
+                    <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+                    <div class="theme-menu" id="themeMenu"></div>
+                </div>
+                <a href="games.html" class="nav-link">🎮 Games</a>
+                <a href="chat.html" class="nav-link">💬 Chat</a>
+                <a href="admin.html" class="nav-link">🔧 Admin</a>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to miceals learning community</h1>
+            <p class="hero-subtitle">🎮 The Ultimate Unblocked Gaming Platform</p>
+        </div>
+    </section>
+
+    <!-- Featured Game Banner -->
+    <section class="featured-banner">
+        <div class="featured-content">
+            <div class="featured-text">
+                <h3>✨ Featured This Week</h3>
+                <p>Check out our newest games and updates. Jump in and experience the latest additions to File Club!</p>
+                <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: 10px;">
+                    <button class="featured-btn" onclick="document.location='games.html'">Browse Games</button>
+                    <button class="featured-btn" style="background: linear-gradient(135deg, rgba(185, 102, 255, 0.9), rgba(0, 217, 255, 0.9));" onclick="document.location='donation.html'">💜 Donate</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recently Played -->
+    <section class="recently-played-section">
+        <h2 class="section-title">🕐 Recently Played</h2>
+        <div class="recently-played-grid" id="recentlyPlayedContainer">
+            <p style="text-align: center; color: var(--text-secondary); grid-column: 1/-1; padding: 2rem;">No games played yet. Start playing!</p>
+        </div>
+    </section>
+
+    <!-- Updates Section -->
+    <section class="updates-section">
+        <h2 class="section-title">📰 Latest Updates</h2>
+        <div class="updates-grid">
+            <div class="update-card">
+                <div class="update-header">
+                    <span class="update-icon">✨</span>
+                    <h3>New Chat System</h3>
+                </div>
+                <p>Real-time community chat now live! Connect with other players and discuss your favorite games.</p>
+                <span class="update-date">Today</span>
+            </div>
+
+            <div class="update-card">
+                <div class="update-header">
+                    <span class="update-icon">🚀</span>
+                    <h3>Enhanced Security</h3>
+                </div>
+                <p>Two-layer authentication keeps your account safe. Login with username, password, and PIN.</p>
+                <span class="update-date">Today</span>
+            </div>
+
+            <div class="update-card">
+                <div class="update-header">
+                    <span class="update-icon">🎯</span>
+                    <h3>7 Amazing Games</h3>
+                </div>
+                <p>Football, Basketball, Soccer, 1v1 LOL, FNF, Moto X3M, and Crossy Road. All unblocked!</p>
+                <span class="update-date">Today</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <span class="stat-number" id="totalPlayers">—</span>
+            <span class="stat-label">Active Players</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">7</span>
+            <span class="stat-label">Games</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number" id="messageCount">—</span>
+            <span class="stat-label">Chat Messages</span>
+        </div>
+    </section>
+
+    <!-- Announcements -->
+    <section class="announcements-section">
+        <h2 class="section-title">📢 Announcements</h2>
+        <div class="announcement-card">
+            <h3>Welcome to File Club!</h3>
+            <p>This is your ultimate destination for unblocked games. Play anywhere, anytime. Connect with fellow gamers in our community chat. Have fun and enjoy!</p>
+        </div>
+    </section>
+
+    <!-- What's New Modal -->
+    <div id="whatsNewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✨ What's New</h2>
+                <button class="modal-close" onclick="closeWhatsNewModal()">✕</button>
+            </div>
+            <div class="modal-updates">
+                <div class="modal-update-item">
+                    <h4>🎯 Cursor Trail Effects</h4>
+                    <p>Smooth, glowing particle trail follows your mouse as you explore the platform.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>🕐 Recently Played Tracking</h4>
+                    <p>Keep track of your recently played games with quick access on the home page.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>💬 Custom Usernames</h4>
+                    <p>Toggle between anonymous mode or set a custom username for the chat.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>😊 Glowing Usernames</h4>
+                    <p>Usernames now glow with neon effects for better visibility in chat.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>👤 Profile Cards</h4>
+                    <p>Enhanced message display with user avatars and profile information.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>😂 Emoji Reactions</h4>
+                    <p>React to messages with 10 different emojis - love it, laugh, or celebrate!</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>🌌 Aurora Background</h4>
+                    <p>Beautiful animated aurora effect that creates a dynamic background atmosphere.</p>
+                </div>
+                <div class="modal-update-item">
+                    <h4>📢 Featured Banner</h4>
+                    <p>See featured games and announcements prominently on the home page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Customizer Modal -->
+    <div id="customizerModal" class="customizer-modal">
+        <div class="customizer-content">
+            <div class="customizer-header">
+                <h2>🎨 Customize Theme</h2>
+                <button class="customizer-close">✕</button>
+            </div>
+            
+            <div class="color-picker-group">
+                <label class="color-picker-label">Primary Color (Accents & Glow)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primaryColorInput" class="color-input" data-color-input="primary">
+                    <div class="color-value" id="primaryDisplay">#00d9ff</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Secondary Color (Highlights)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondaryColorInput" class="color-input" data-color-input="secondary">
+                    <div class="color-value" id="secondaryDisplay">#ff006e</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Green Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="greenColorInput" class="color-input" data-color-input="green">
+                    <div class="color-value" id="greenDisplay">#39ff14</div>
+                </div>
+            </div>
+
+            <div class="color-picker-group">
+                <label class="color-picker-label">Purple Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="purpleColorInput" class="color-input" data-color-input="purple">
+                    <div class="color-value" id="purpleDisplay">#b366ff</div>
+                </div>
+            </div>
+
+            <div class="customizer-actions">
+                <button class="customizer-btn customizer-save">💾 Save Theme</button>
+                <button class="customizer-btn customizer-reset">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script src="ads.js"></script>
+    <script>
+        // Example sponsor boxes (replace the old quick button)
+        (function () {
+            if (document.getElementById('sponsorExampleBox')) return;
+
+            var wrap = document.createElement('div');
+            wrap.id = 'sponsorExampleBox';
+            wrap.style.position = 'fixed';
+            wrap.style.top = '140px';
+            wrap.style.right = '16px';
+
+
+
+            wrap.style.zIndex = '200001';
+            wrap.style.width = '260px';
+            wrap.style.pointerEvents = 'auto';
+
+            wrap.innerHTML = [
+              '<div style="margin-bottom:10px; padding:12px; border-radius:12px; background:rgba(10,14,39,0.88); border:1px solid rgba(0,217,255,0.25); backdrop-filter:blur(10px); box-shadow:0 10px 30px rgba(0,0,0,0.35);">',
+              '<div style="color:#fff; font-weight:900; font-size:14px; margin-bottom:6px;">Do you want your ad here?</div>',
+              '<a href="sponsor.html" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--primary-color); font-weight:800; text-decoration:none;">Click here to learn more →</a>',
+              '</div>',
+            ].join('');
+
+            document.body.appendChild(wrap);
+
+
+        })();
+    </script>
+</body>
+</html>
+
+
+
+
+
