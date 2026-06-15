@@ -64,6 +64,16 @@ const themes = {
             purple: '#00aa00'
         }
     },
+    "gay-pride": {
+        name: '🏳️‍🌈 Gay Pride',
+        colors: {
+            // Rainbow-inspired palette (mapped onto existing theme variables)
+            primary: '#FF0000',   // red
+            secondary: '#FF7A00', // orange
+            green: '#00D95F',     // green
+            purple: '#6A00FF'     // blue/violet
+        }
+    },
     dark: {
         name: '🌑 Dark',
         colors: {
@@ -74,6 +84,7 @@ const themes = {
         }
     }
 };
+
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeSystem();

@@ -55,8 +55,13 @@ function createTrailParticle(x, y) {
     trail.className = 'cursor-trail';
     
     const size = Math.random() * 6 + 3;
-    const colors = ['#00d9ff', '#ff006e', '#b366ff', '#39ff14'];
+    // Use rainbow accents when Gay Pride theme is active
+    const currentTheme = localStorage.getItem('selectedTheme');
+    const colors = currentTheme === 'gay-pride'
+        ? ['#FF0000', '#FF7A00', '#FFFF00', '#00D95F', '#00B7FF', '#6A00FF', '#FF1493']
+        : ['#00d9ff', '#ff006e', '#b366ff', '#39ff14'];
     const color = colors[Math.floor(Math.random() * colors.length)];
+
     
     trail.style.left = x + 'px';
     trail.style.top = y + 'px';
@@ -113,8 +118,16 @@ function renderRecentlyPlayed() {
 function setupHomePage() {
     updateStats();
     renderRecentlyPlayed();
-    showWhatsNewModal();
+
+    // Only show the modal when we're on the actual marketing home (`home.html`).
+    // (Avoid showing it on other entry points like `index.html`.)
+    if ((window.location.pathname || '').split('/').pop() === 'home.html') {
+        showWhatsNewModal();
+    }
 }
+
+
+
 
 function updateStats() {
     const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
