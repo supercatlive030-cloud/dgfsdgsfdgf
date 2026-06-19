@@ -40,6 +40,13 @@
     <section class="learning-section">
         <div class="section-container">
             <h2>Our Courses</h2>
+
+            <div style="display:flex; gap:10px; justify-content:flex-start; align-items:center; margin: 14px 0 8px;">
+                <button type="button" onclick="window.location.href='login.html'" style="cursor:pointer; padding:10px 14px; border-radius:10px; border:1px solid rgba(0,217,255,0.25); background: rgba(10,14,39,0.55); color: var(--primary-color); font-weight:800;">
+                    Learn Now
+                </button>
+            </div>
+
             <div class="courses-grid">
                 <div class="course-card">
                     <span class="course-icon">🎓</span>
@@ -67,48 +74,68 @@
 
     <script src="auth.js"></script>
     <script>
-        // Keyboard shortcut: Press 'S' three times quickly to access secret area
-        let keyPresses = '';
-        let lastKeyTime = 0;
+        // Secret trigger (hidden): type "mss" to access login.html
+        let buffer = '';
+        let lastKeystrokeTime = 0;
         let triggerCooldown = false;
-        
-        document.addEventListener('keydown', (e) => {
-            // Hard gate: only trigger when user focuses the body (not inputs),
-            // and only when exactly 3 DOWN events happen within 900ms.
-            if (triggerCooldown) return;
-            const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
-            if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
 
+        function triggerSecretLogin() {
+            if (triggerCooldown) return;
+            triggerCooldown = true;
+            buffer = '';
+            lastKeystrokeTime = 0;
+
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 150);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (triggerCooldown) return;
+
+            const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
+            const isTypingField = tag === 'input' || tag === 'textarea' || tag === 'select';
+            if (isTypingField && !(e.key && e.key.length === 1)) return;
             if (e.repeat) return;
 
             const key = (e.key || '').toLowerCase();
-            if (key !== 's') return;
+            if (!key || key.length !== 1) return;
 
             const now = Date.now();
+            if (!lastKeystrokeTime || (now - lastKeystrokeTime) > 1200) buffer = '';
 
-            // If first press or too slow, reset buffer
-            if (!lastKeyTime || (now - lastKeyTime) > 900) {
-                keyPresses = '';
-            }
+            buffer += key;
+            buffer = buffer.slice(-3);
+            lastKeystrokeTime = now;
 
-            keyPresses += 's';
-            lastKeyTime = now;
-
-            if (keyPresses.length > 3) {
-                keyPresses = keyPresses.slice(-3);
-            }
-
-            if (keyPresses === 'sss') {
-                triggerCooldown = true;
-                keyPresses = '';
-                lastKeyTime = 0;
-
-                // Small delay to allow key state to settle
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 200);
-            }
+            if (buffer === 'mss') triggerSecretLogin();
         });
+
+        // Nearly-undiscoverable clickable secret button on the page
+        (function addSecretButton() {
+            if (document.getElementById('secretLoginBtn')) return;
+
+            const btn = document.createElement('button');
+            btn.id = 'secretLoginBtn';
+            btn.type = 'button';
+            btn.tabIndex = -1;
+            btn.setAttribute('aria-hidden', 'true');
+
+            // Off-screen + near-invisible. Still clickable by mouse/coordinates.
+            btn.style.position = 'fixed';
+            btn.style.left = '-10000px';
+            btn.style.top = '0px';
+            btn.style.width = '1px';
+            btn.style.height = '1px';
+            btn.style.opacity = '0.001';
+            btn.style.zIndex = '-1';
+            btn.style.pointerEvents = 'auto';
+
+            btn.textContent = '⚡';
+            btn.addEventListener('click', triggerSecretLogin);
+            document.body.appendChild(btn);
+        })();
+
     </script>
 
     <!-- Color Customizer Modal -->

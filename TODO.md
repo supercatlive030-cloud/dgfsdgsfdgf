@@ -1,5 +1,7 @@
-- [x] Fix admin panel skipping password
-- [x] Make admin.html always require password (no remember-me)
-- [x] Make donation.html load normally (removed auth.js include)
-- [ ] Fix remaining game pages that still force-redirect to home on unload
+# TODO (File Club)
+
+- [x] Fix secret `mss` trigger to open `login.html` (reliable key capture + hidden button)
+- [x] Make Home button go to `games.html` (games, home, chat, ideas, music)
+- [x] Add demo song + “Request it” link on `music.html`
+- [x] Show where idea submissions are stored (localStorage key `ideaSubmissions`) on `ideas.html`
 

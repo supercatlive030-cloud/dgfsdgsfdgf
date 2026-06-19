@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Club - Music</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-particles"></div>
+  <div class="background-glow"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">File Club</span>
+      </div>
+      <div class="nav-controls">
+        <div class="theme-dropdown">
+          <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+          <div class="theme-menu" id="themeMenu"></div>
+        </div>
+        <a href="games.html" class="nav-link">🏠 Home</a>
+
+        <a href="games.html" class="nav-link">🎮 Games</a>
+        <a href="chat.html" class="nav-link">💬 Chat</a>
+        <a href="ideas.html" class="nav-link">💡 Ideas</a>
+        <a href="music.html" class="nav-link">🎵 Music</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="chat-section" style="margin-top: 120px;">
+    <div class="chat-container" style="max-width: 1000px;">
+      <h1 class="section-title" style="margin-bottom: 1rem;">🎵 Music</h1>
+
+      <div class="chat-box" style="height: auto; padding: 1.5rem;">
+        <div style="display:flex; flex-direction:column; gap: 1rem;">
+          <div style="color: var(--text-secondary); font-weight: 800; font-size: 1.1rem;">
+            This is an unreleased update if you want to request a song click the link below
+          </div>
+
+          <div style="margin-top: 0.2rem; font-size: 1rem; line-height: 1.5;">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSd0gmA0n8ZrIrjKW6XFYQj3VSTjb9SDr2QQuC03t7OjLij7Fw/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="color: var(--primary-color); font-weight: 900; text-decoration: underline; word-break: break-word;"
+            >
+              Request a song (Google Form)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="theme.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Music page disabled (unreleased update)
+    // Keeping existing playlist code intact to avoid breaking anything else,
+    // but preventing it from running.
+    const MUSIC_KEY = 'musicPlaylist';
+    return;
+
+    const MUSIC_DEMO = {
+      name: 'Demo Song',
+      // Replace this URL with your own if you have one; using a public sample here.
+      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/StarWars3.wav',
+      timestamp: Date.now()
+    };
+
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '<',
+        '>': '>',
+        '"': '"',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, (m) => map[m]);
+    }
+
+    function loadPlaylist() {
+      let playlist = [];
+      try { playlist = JSON.parse(localStorage.getItem(MUSIC_KEY)) || []; } catch (e) {}
+
+      const container = document.getElementById('playlist');
+      if (!container) return;
+
+      if (playlist.length === 0) {
+        container.innerHTML = '<div class="empty-chat">No songs yet. Add one using the form above.</div>';
+        return;
+      }
+
+      container.innerHTML = playlist
+        .slice().reverse()
+        .map((song, idx) => {
+          // idx here is for reversed list; map to actual by searching length-1-idx
+          const actualIndex = playlist.length - 1 - idx;
+          return `
+            <div class="profile-card" style="margin-bottom: 0.9rem;">
+              <div class="profile-header">
+                <div class="profile-info" style="display:flex; flex-direction:column; gap: 0.2rem;">
+                  <span class="username-glow">${escapeHtml(song.name || 'Song')}</span>
+                  <span class="message-time">${escapeHtml(song.url || '')}</span>
+                </div>
+                <div style="display:flex; gap: 0.6rem; align-items:center;">
+                  <button type="button" class="send-btn" style="padding: 0.55rem 0.9rem;" onclick="playSong(${actualIndex})">▶ Play</button>
+                  <button type="button" class="clear-chat-btn" style="padding: 0.55rem 0.9rem; border-radius: 8px;" onclick="removeSong(${actualIndex})">✕</button>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      // persist last nowPlaying
+      const last = localStorage.getItem('musicCurrentIndex');
+      if (last !== null) {
+        const i = parseInt(last, 10);
+        if (!Number.isNaN(i)) {
+          playSong(i, false);
+        }
+      }
+    }
+
+    function savePlaylist(playlist) {
+      localStorage.setItem(MUSIC_KEY, JSON.stringify(playlist));
+    }
+
+    function getPlaylist() {
+      let playlist = [];
+      try { playlist = JSON.parse(localStorage.getItem(MUSIC_KEY)) || []; } catch (e) {}
+      return playlist;
+    }
+
+    function playSong(index, autoScroll = true) {
+      const playlist = getPlaylist();
+      const song = playlist[index];
+      if (!song) return;
+
+      const player = document.getElementById('audioPlayer');
+      const nowPlaying = document.getElementById('nowPlaying');
+      if (player) player.src = song.url;
+      localStorage.setItem('musicCurrentIndex', String(index));
+
+      if (nowPlaying) nowPlaying.textContent = `Now playing: ${song.name || 'Song'}`;
+      if (autoScroll) {
+        document.getElementById('audioPlayer')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // attempt play
+      try { player?.play(); } catch (e) {}
+    }
+
+    function removeSong(index) {
+      const playlist = getPlaylist();
+      playlist.splice(index, 1);
+      savePlaylist(playlist);
+
+      const current = localStorage.getItem('musicCurrentIndex');
+      if (current !== null && parseInt(current, 10) === index) {
+        localStorage.removeItem('musicCurrentIndex');
+      }
+      loadPlaylist();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load demo song if playlist is empty (so the page isn't blank).
+      const existing = getPlaylist();
+      if (!existing || existing.length === 0) {
+        try {
+          localStorage.setItem(MUSIC_KEY, JSON.stringify([MUSIC_DEMO]));
+        } catch (e) {}
+      }
+
+      loadPlaylist();
+
+
+      const form = document.getElementById('musicForm');
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('songName').value.trim();
+        const url = document.getElementById('songUrl').value.trim();
+        if (!name || !url) return;
+
+        const playlist = getPlaylist();
+        playlist.push({ name, url, timestamp: Date.now() });
+        savePlaylist(playlist);
+        form.reset();
+        loadPlaylist();
+
+        // auto play last added
+        const newIndex = playlist.length - 1;
+        playSong(newIndex, false);
+      });
+
+      document.getElementById('clearMusicBtn')?.addEventListener('click', () => {
+        if (!confirm('Clear playlist stored in your browser only?')) return;
+        localStorage.removeItem(MUSIC_KEY);
+        localStorage.removeItem('musicCurrentIndex');
+        loadPlaylist();
+      });
+    });
+
+  </script>
+</body>
+</html>
+

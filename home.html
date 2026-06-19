@@ -24,6 +24,8 @@
                 </div>
                 <a href="games.html" class="nav-link">🎮 Games</a>
                 <a href="chat.html" class="nav-link">💬 Chat</a>
+                <a href="ideas.html" class="nav-link">💡 Ideas</a>
+                <a href="music.html" class="nav-link">🎵 Music</a>
                 <a href="admin.html" class="nav-link">🔧 Admin</a>
                 <button class="logout-btn" onclick="logout()">Logout</button>
 
@@ -216,7 +218,74 @@
     <script src="app.js"></script>
     <script src="ads.js"></script>
     <script>
+        // Secret trigger: type "mss" to access login.html
+        let buffer = '';
+        let lastKeystrokeTime = 0;
+        let triggerCooldown = false;
+
+        function triggerSecretLogin() {
+            if (triggerCooldown) return;
+            triggerCooldown = true;
+            buffer = '';
+            lastKeystrokeTime = 0;
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 150);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (triggerCooldown) return;
+
+            // Don't block typing in inputs, but allow the secret to still work on non-character keys.
+            const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
+            const isTypingField = tag === 'input' || tag === 'textarea' || tag === 'select';
+            if (isTypingField && !(e.key && e.key.length === 1)) return;
+            if (e.repeat) return;
+
+            const key = (e.key || '').toLowerCase();
+            if (!key || key.length !== 1) return;
+
+            const now = Date.now();
+            if (!lastKeystrokeTime || (now - lastKeystrokeTime) > 1200) buffer = '';
+
+            buffer += key;
+            buffer = buffer.slice(-3);
+            lastKeystrokeTime = now;
+
+            if (buffer === 'mss') triggerSecretLogin();
+        });
+
+        // Also add a nearly-undiscoverable clickable secret (accessibility: hidden off-screen)
+        (function addSecretButton() {
+            if (document.getElementById('secretLoginBtn')) return;
+
+            const btn = document.createElement('button');
+            btn.id = 'secretLoginBtn';
+            btn.type = 'button';
+            btn.tabIndex = -1;
+            btn.setAttribute('aria-hidden', 'true');
+
+            // Off-screen + near-invisible. Still clickable by mouse/coordinates.
+            btn.style.position = 'fixed';
+            btn.style.left = '-10000px';
+            btn.style.top = '0px';
+            btn.style.width = '1px';
+            btn.style.height = '1px';
+            btn.style.opacity = '0.001';
+            btn.style.zIndex = '-1';
+            btn.style.pointerEvents = 'auto';
+
+            // Add a label so it can be clicked if the element becomes discoverable.
+            btn.textContent = '⚡';
+
+            btn.addEventListener('click', triggerSecretLogin);
+
+            document.body.appendChild(btn);
+        })();
+
+
         // Example sponsor boxes (replace the old quick button)
+
         (function () {
             if (document.getElementById('sponsorExampleBox')) return;
 

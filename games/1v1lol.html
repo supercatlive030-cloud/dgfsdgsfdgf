@@ -43,5 +43,14 @@
         </script>
 
     </div>
+
+    <script src="jome.js"></script>
+    <script>
+        try {
+            // keep any existing home button behavior but ensure no beforeunload confirmation
+            window.addEventListener('beforeunload', function () {});
+        } catch (e) {}
+    </script>
 </body>
 </html>
+
