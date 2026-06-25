@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>diddys playhouse - YouTube</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    .youtube-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+<span class="logo-text">diddys playhouse</span>
+      </div>
+      <div class="nav-controls">
+        <div class="theme-dropdown">
+          <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+          <div class="theme-menu" id="themeMenu"></div>
+        </div>
+        <a href="home.html" class="nav-link">🏠 Home</a>
+        <a href="games.html" class="nav-link">🎮 Games</a>
+        <a href="chat.html" class="nav-link">💬 Chat</a>
+        <a href="ideas.html" class="nav-link">💡 Ideas</a>
+        <a href="music.html" class="nav-link">🎵 Music</a>
+        <a href="youtube.html" class="nav-link">📺 YouTube</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="youtube-wrap">
+    <iframe
+      src="https://www.youtube.com"
+      allowfullscreen
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  </div>
+
+  <script src="theme.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
+
+

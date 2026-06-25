@@ -3,7 +3,12 @@
 // Game data
 const gamesData = [
     { name: '1v1 LOL', emoji: '⚔️', path: 'games/1v1lol.html', category: 'action' },
+
+
+
+
     { name: 'Basketball', emoji: '🏀', path: 'games/basketball.html', category: 'sports' },
+
     { name: 'Soccer', emoji: '⚽', path: 'games/soccer.html', category: 'sports' },
     { name: 'Football', emoji: '🏈', path: 'games/football.html', category: 'sports' },
     { name: 'FNF', emoji: '🎵', path: 'games/fnf.html', category: 'music' },
@@ -144,8 +149,7 @@ function updateStats() {
 function showWhatsNewModal() {
     // Show modal only once per session
     if (sessionStorage.getItem('whatsNewShown')) return;
-    
-    const modal = document.getElementById('whatsNewModal');
+         const modal = document.getElementById('whatsNewModal');
     if (modal) {
         setTimeout(() => {
             modal.classList.add('show');
