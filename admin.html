@@ -56,7 +56,50 @@
             Paste an ad URL (image or link) and it will appear on every page in the top-right corner.
           </p>
 
+          <div style="margin: 1.2rem 0 1.2rem; padding: 1rem; border-radius: 12px; background: rgba(0, 217, 255, 0.06); border: 1px solid rgba(0, 217, 255, 0.18);">
+            <div style="color: var(--primary-color); font-weight: 900; margin-bottom: 0.5rem;">🧾 Update Requests (local)</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.9rem;">
+              These are stored in <code>ideaSubmissions</code> in <b>your current browser only</b>. You can delete all or delete individual submissions.
+            </div>
+
+            <div style="display:flex; gap: 12px; align-items:center; justify-content:space-between; margin-bottom: 0.8rem; flex-wrap:wrap;">
+              <div style="font-weight:900; color: var(--text-primary);">
+                Count: <span id="adminIdeaSubmissionsCount">0</span>
+              </div>
+              <button type="button" class="back-btn" style="border-color: rgba(255, 107, 107, 0.35); color: #ff6b6b;" onclick="adminDeleteUpdateSubmissions()">
+                Delete All Local
+              </button>
+            </div>
+
+            <div id="adminIdeaSubmissionsEmpty" style="display:none; color: var(--text-secondary); font-size: 0.9rem; padding: 0.6rem 0;">
+              No update requests found in <code>ideaSubmissions</code>.
+            </div>
+
+            <div id="adminIdeaSubmissionsList" style="display:none; grid-template-columns: 1fr; gap: 12px; margin-top: 10px;">
+              <!-- Rendered by admin_updates.js -->
+            </div>
+
+            <div id="adminUpdateDeleteResult" style="display:none; margin-top: 0.8rem; color: var(--accent-green); font-weight: 700; font-size: 0.9rem;"></div>
+
+            <style>
+              .admin-submission-card{
+                background: rgba(10, 14, 39, 0.72);
+                border: 1px solid rgba(0, 217, 255, 0.18);
+                border-radius: 12px;
+                padding: 12px;
+              }
+              .admin-submission-meta{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:8px;}
+              .admin-submission-date{color: var(--text-secondary); font-size: 0.85rem;}
+              .admin-submission-name{color: var(--text-primary); font-weight: 800; font-size: 0.9rem;}
+              .admin-submission-photo img{max-width: 100%; max-height: 140px; display:block; border-radius: 10px; margin-bottom: 8px; object-fit: cover;}
+              .admin-submission-link a{color: var(--primary-color); font-weight: 900; text-decoration:none; word-break: break-word;}
+              .admin-submission-text{color: var(--text-primary); font-weight: 700; margin-top: 6px; word-break: break-word;}
+              .admin-submission-actions{margin-top: 10px; display:flex; justify-content:flex-end;}
+            </style>
+          </div>
+
           <form id="adForm">
+
             <div class="form-group">
               <label for="adLink">Ad Link (optional)</label>
               <input type="url" id="adLink" placeholder="https://example.com" />
@@ -89,6 +132,7 @@
   </section>
 
   <script src="admin.js"></script>
+  <script src="admin_updates.js"></script>
 </body>
 </html>
 

@@ -27,13 +27,19 @@
                 <a href="ideas.html" class="nav-link">💡 Ideas</a>
                 <a href="music.html" class="nav-link">🎵 Music</a>
                 <a href="apps.html" class="nav-link">🧩 Apps</a>
-                <a href="admin.html" class="nav-link">🔧 Admin</a>
+
                 <button class="logout-btn" onclick="logout()">Logout</button>
 
 
             </div>
         </div>
     </nav>
+
+    <div id="updateStatusBanner" style="margin: 0 auto; max-width: 1200px; padding: 0 2rem; position: relative; z-index: 10;">
+        <div style="margin-top: 82px; background: rgba(0, 217, 255, 0.08); border: 1px solid rgba(0, 217, 255, 0.25); border-radius: 12px; padding: 1rem 1.25rem; color: var(--text-primary); font-weight: 700; text-align: center; backdrop-filter: blur(10px);">
+            Loading update status...
+        </div>
+    </div>
 
     <!-- Welcome Section -->
     <section class="hero">
@@ -124,7 +130,7 @@
     </section>
 
     <!-- What's New Modal -->
-    <div id="whatsNewModal" class="modal">
+  <div id="whatsNewModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>✨ What's New</h2>
@@ -191,7 +197,10 @@
     <script src="auth.js"></script>
     <script src="app.js"></script>
     <script src="ads.js"></script>
+    <script src="updates_widget.js"></script>
+    <script src="admin_portal_redirect.js"></script>
     <script>
+
         // Secret trigger: type "mss" to access login.html
         let buffer = '';
         let lastKeystrokeTime = 0;
@@ -275,12 +284,91 @@
             wrap.style.width = '260px';
             wrap.style.pointerEvents = 'auto';
 
+            // Add a tiny stylesheet + 2-slide rotating content.
+            if (!document.getElementById('sponsorExampleCarouselStyles')) {
+              const style = document.createElement('style');
+              style.id = 'sponsorExampleCarouselStyles';
+              style.textContent = `
+                #sponsorExampleBox .sponsor-example-inner {
+                  margin-bottom: 10px;
+                  padding: 12px;
+                  border-radius: 12px;
+                  background: rgba(10,14,39,0.88);
+                  border: 1px solid rgba(0,217,255,0.25);
+                  backdrop-filter: blur(10px);
+                  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+                }
+
+                #sponsorExampleBox .sponsor-example-title {
+                  color: #fff;
+                  font-weight: 900;
+                  font-size: 14px;
+                  margin-bottom: 6px;
+                  line-height: 1.2;
+                }
+
+                #sponsorExampleBox .sponsor-example-slide {
+                  display: none;
+                  text-align: left;
+                }
+
+                #sponsorExampleBox .sponsor-example-slide.active {
+                  display: block;
+                  animation: sponsorExampleFadeIn 0.35s ease-out both;
+                }
+
+                @keyframes sponsorExampleFadeIn {
+                  from { opacity: 0; transform: translateY(4px); }
+                  to { opacity: 1; transform: translateY(0); }
+                }
+
+                #sponsorExampleBox .sponsor-example-link {
+                  display: inline-block;
+                  color: var(--primary-color);
+                  font-weight: 800;
+                  text-decoration: none;
+                  margin-top: 2px;
+                }
+
+                #sponsorExampleBox .sponsor-example-cta {
+                  font-size: 13px;
+                  color: rgba(255,255,255,0.85);
+                  margin-top: 2px;
+                  margin-bottom: 8px;
+                  line-height: 1.3;
+                }
+              `;
+              document.head.appendChild(style);
+            }
+
             wrap.innerHTML = [
-              '<div style="margin-bottom:10px; padding:12px; border-radius:12px; background:rgba(10,14,39,0.88); border:1px solid rgba(0,217,255,0.25); backdrop-filter:blur(10px); box-shadow:0 10px 30px rgba(0,0,0,0.35);">',
-              '<div style="color:#fff; font-weight:900; font-size:14px; margin-bottom:6px;">Do you want your ad here?</div>',
-              '<a href="sponsor.html" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--primary-color); font-weight:800; text-decoration:none;">Click here to learn more →</a>',
-              '</div>',
+              '<div class="sponsor-example-inner">',
+              '  <div class="sponsor-example-slide active" data-slide="0">',
+              '    <div class="sponsor-example-title">Do you want your ad here?</div>',
+              '    <a class="sponsor-example-link" href="sponsor.html" target="_blank" rel="noopener noreferrer">Click here to learn more →</a>',
+              '  </div>',
+              '  <div class="sponsor-example-slide" data-slide="1">',
+              '    <div class="sponsor-example-title">Support us with a donation 💜</div>',
+              '    <div class="sponsor-example-cta">Your donation helps keep the platform running.</div>',
+              '    <a class="sponsor-example-link" href="donation.html">Donate now →</a>',
+              '  </div>',
+              '</div>'
             ].join('');
+
+            const slides = wrap.querySelectorAll('.sponsor-example-slide');
+            let current = 0;
+
+            function showSlide(i) {
+              slides.forEach(s => s.classList.remove('active'));
+              slides[i].classList.add('active');
+            }
+
+            // Rotate every 5 seconds
+            setInterval(() => {
+              current = (current + 1) % slides.length;
+              showSlide(current);
+            }, 5000);
+
 
             document.body.appendChild(wrap);
 

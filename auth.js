@@ -13,17 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // If on protected pages but not authenticated, redirect to index.
     // Allow returning from game pages (some games redirect users to home).
     const isHomeOrChatOrGames = ['home.html', 'chat.html', 'games.html'].includes(currentPage);
-    if (isHomeOrChatOrGames && !isAuthenticated) {
-        window.location.href = 'home.html';
+
+    // If on protected pages but not authenticated, redirect to login.
+    // Important: do NOT redirect to home.html when already on home.html,
+    // otherwise logout can cause a redirect loop/glitch.
+    if ((isHomeOrChatOrGames || isGamePage) && !isAuthenticated) {
+        window.location.href = 'login.html';
         return;
     }
 
-
-    // If on game pages but not authenticated, redirect to index
-    if (isGamePage && !isAuthenticated) {
-        window.location.href = 'home.html';
-        return;
-    }
 
     // If user is authenticated and tries to access any non-game protected page, allow.
     // (Game-to-home navigation is handled inside game pages; this script stays focused on auth.)
@@ -40,8 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         localStorage.removeItem('authenticated');
-        window.location.href = 'home.html';
+        window.location.href = 'login.html';
     }
 }
+
 
 
