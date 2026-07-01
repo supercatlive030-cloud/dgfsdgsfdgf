@@ -13,7 +13,7 @@
 
     var btn = document.createElement('a');
     btn.id = 'gameHomeBtn';
-    btn.href = '../home.html';
+    btn.href = '../games.html';
     btn.className = 'game-home-btn';
     btn.setAttribute('aria-label', 'Home');
     btn.setAttribute('title', 'Home');
@@ -52,7 +52,7 @@
       try {
         e.preventDefault();
       } catch (err) {}
-      window.location.href = '../home.html';
+      window.location.href = '../games.html';
     });
 
     document.body.appendChild(btn);

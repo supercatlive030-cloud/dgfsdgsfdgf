@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diddys playhouse - Update Author</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-particles"></div>
+  <div class="background-glow"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">diddys playhouse</span>
+      </div>
+      <div class="nav-controls">
+        <a href="home.html" class="nav-link">🏠 Home</a>
+        <a href="ideas.html" class="nav-link">💡 Ideas</a>
+        <a href="admin.html" class="nav-link">🔧 Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="chat-section" style="margin-top: 120px;">
+    <div class="chat-container" style="max-width: 900px;">
+      <div id="updateStatusBanner" style="margin-bottom: 1rem; background: rgba(0, 217, 255, 0.08); border: 1px solid rgba(0, 217, 255, 0.25); border-radius: 12px; padding: 0.9rem 1rem; color: var(--text-primary); font-weight: 700; text-align: center; backdrop-filter: blur(10px);">
+        Author mode (localStorage)
+      </div>
+
+      <h1 class="section-title" style="margin-bottom: 1rem;">📰 Post Updates (Whats New + Latest Updates)</h1>
+      <p style="margin-top: -0.25rem; margin-bottom: 1rem; color: var(--text-secondary);">
+        Saved to <code>siteUpdates_v1</code> in your browser. They will render in BOTH:
+        <b>What’s New modal</b> and <b>Latest Updates</b> cards on <code>home.html</code>.
+      </p>
+
+      <div class="chat-box" style="height: auto;">
+        <form id="updateForm" style="display:flex; flex-direction:column; gap: 1rem;">
+          <div class="message-input-container" style="margin-bottom: 0;">
+            <input
+              type="text"
+              id="updateTitle"
+              maxlength="80"
+              placeholder="Title (example: New Chat System)"
+              required
+              style="width: 100%; padding: 0.9rem; background: rgba(20, 30, 60, 0.6); border: 2px solid rgba(0, 217, 255, 0.2); border-radius: 8px; color: var(--text-primary); font-size: 1rem;"
+            />
+          </div>
+
+          <div class="message-input-container" style="margin-bottom: 0;">
+            <textarea
+              id="updateMessage"
+              maxlength="500"
+              placeholder="What changed?"
+              required
+              style="width: 100%; min-height: 140px; padding: 0.9rem; background: rgba(20, 30, 60, 0.6); border: 2px solid rgba(0, 217, 255, 0.2); border-radius: 8px; color: var(--text-primary); font-size: 1rem; resize: vertical;"
+            ></textarea>
+          </div>
+
+          <div style="display:flex; gap: 1rem; flex-wrap: wrap;">
+            <div class="message-input-container" style="flex: 1; min-width: 170px; margin-bottom: 0;">
+              <input
+                type="text"
+                id="updateIcon"
+                maxlength="6"
+                placeholder="Icon emoji (example: ✨)"
+                style="width: 100%; padding: 0.9rem; background: rgba(20, 30, 60, 0.6); border: 2px solid rgba(0, 217, 255, 0.2); border-radius: 8px; color: var(--text-primary); font-size: 1rem;"
+              />
+            </div>
+
+            <div class="message-input-container" style="flex: 1; min-width: 170px; margin-bottom: 0;">
+              <input
+                type="text"
+                id="updateDateText"
+                maxlength="25"
+                placeholder="Date label (example: Today)"
+                style="width: 100%; padding: 0.9rem; background: rgba(20, 30, 60, 0.6); border: 2px solid rgba(0, 217, 255, 0.2); border-radius: 8px; color: var(--text-primary); font-size: 1rem;"
+              />
+            </div>
+          </div>
+
+          <div style="display:flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <div style="flex: 1; min-width: 220px;">
+              <div style="color: var(--text-secondary); font-weight: 700; margin-bottom: 0.5rem;">Show in</div>
+              <div style="display:flex; gap: 0.7rem; flex-wrap: wrap;">
+                <label style="display:flex; gap: 0.5rem; align-items:center; color: var(--text-secondary); font-weight: 700;">
+                  <input type="radio" name="showIn" value="both" checked /> Both
+                </label>
+                <label style="display:flex; gap: 0.5rem; align-items:center; color: var(--text-secondary); font-weight: 700;">
+                  <input type="radio" name="showIn" value="whatsNew" /> What’s New
+                </label>
+                <label style="display:flex; gap: 0.5rem; align-items:center; color: var(--text-secondary); font-weight: 700;">
+                  <input type="radio" name="showIn" value="latest" /> Latest Updates
+                </label>
+              </div>
+            </div>
+
+            <button type="button" class="clear-chat-btn" id="clearAllBtn" style="flex: 0 0 200px;">
+              Clear All Local Updates
+            </button>
+          </div>
+
+          <div style="display:flex; gap: 1rem; flex-wrap: wrap;">
+            <button type="submit" class="send-btn" style="flex: 1;">Save Update</button>
+            <button type="button" class="back-btn" id="refreshPreviewBtn" style="flex: 1;">Re-render home preview</button>
+          </div>
+
+          <div id="updateStatus" style="color: var(--text-secondary); font-size: 0.95rem; min-height: 1.2rem;"></div>
+        </form>
+      </div>
+
+      <div style="height: 1.5rem;"></div>
+
+      <h2 class="section-title" style="margin: 0 0 1rem 0;">Saved Updates</h2>
+      <div class="chat-box" id="updatesList" style="height: auto; padding: 1rem;">
+        <!-- items -->
+      </div>
+    </div>
+  </section>
+
+  <script src="theme.js"></script>
+  <script src="auth.js"></script>
+  <script src="updates_author.js"></script>
+</body>
+</html>
+

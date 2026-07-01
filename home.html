@@ -25,6 +25,7 @@
                 <a href="games.html" class="nav-link">🎮 Games</a>
                 <a href="chat.html" class="nav-link">💬 Chat</a>
                 <a href="ideas.html" class="nav-link">💡 Ideas</a>
+                <a href="updates.html" class="nav-link">📰 Updates</a>
                 <a href="music.html" class="nav-link">🎵 Music</a>
                 <a href="apps.html" class="nav-link">🧩 Apps</a>
 
@@ -75,32 +76,7 @@
     <section class="updates-section">
         <h2 class="section-title">📰 Latest Updates</h2>
         <div class="updates-grid">
-            <div class="update-card">
-                <div class="update-header">
-                    <span class="update-icon">✨</span>
-                    <h3>New Chat System</h3>
-                </div>
-                <p>Real-time community chat now live! Connect with other players and discuss your favorite games.</p>
-                <span class="update-date">Today</span>
-            </div>
-
-            <div class="update-card">
-                <div class="update-header">
-                    <span class="update-icon">🚀</span>
-                    <h3>Enhanced Security</h3>
-                </div>
-                <p>Two-layer authentication keeps your account safe. Login with username, password, and PIN.</p>
-                <span class="update-date">Today</span>
-            </div>
-
-            <div class="update-card">
-                <div class="update-header">
-                    <span class="update-icon">🎯</span>
-                    <h3>7 Amazing Games</h3>
-                </div>
-                <p>Football, Basketball, Soccer, 1v1 LOL, FNF, Moto X3M, and Crossy Road. All unblocked!</p>
-                <span class="update-date">Today</span>
-            </div>
+            <!-- Rendered by updates_render.js -->
         </div>
     </section>
 
@@ -136,12 +112,11 @@
                 <h2>✨ What's New</h2>
                 <button class="modal-close" onclick="closeWhatsNewModal()">✕</button>
             </div>
+            <div class="modal-summary" style="margin: 0.5rem 0 1rem; color: var(--text-secondary); line-height: 1.6;">
+                We renamed the website to “diddys playhouse”, added several new games to the game library, and fixed bugs to improve the games/updates experience.
+            </div>
             <div class="modal-updates" style="display:flex; flex-direction:column; gap: 1rem;">
-                <div class="modal-update-item">
-                    <h4>📰 Website Renamed</h4>
-                    <p>We renamed the site in the What’s New popup—new look, same unblocked gaming.</p>
-                </div>
-
+                <!-- Rendered by updates_render.js -->
             </div>
         </div>
     </div>
@@ -198,6 +173,7 @@
     <script src="app.js"></script>
     <script src="ads.js"></script>
     <script src="updates_widget.js"></script>
+    <script src="updates_render.js"></script>
     <script src="admin_portal_redirect.js"></script>
     <script>
 
@@ -205,6 +181,7 @@
         let buffer = '';
         let lastKeystrokeTime = 0;
         let triggerCooldown = false;
+
 
         function triggerSecretLogin() {
             if (triggerCooldown) return;

@@ -1,5 +1,5 @@
 // ==================== GAME DATA ==================== //
-const gamesData = [
+window.gamesData = window.gamesData || [
     { name: '1v1 LOL', emoji: '⚔️', path: 'games/1v1lol.html', category: 'action' },
     { name: 'Basketball', emoji: '🏀', path: 'games/basketball.html', category: 'sports' },
     { name: 'Soccer', emoji: '⚽', path: 'games/soccer.html', category: 'sports' },
@@ -15,17 +15,30 @@ const gamesData = [
     { name: 'Axis Football League', emoji: '⚽', path: 'games/axis-football-league.html', category: 'sports' },
     { name: 'Apple Shooter', emoji: '🍎', path: 'games/apple-shooter.html', category: 'arcade' },
     { name: 'Betrayal.io', emoji: '🗡️', path: 'games/betrayal-io.html', category: 'action' },
+    { name: 'Cookie Clicker', emoji: '🍪', path: 'games/cookie-clicker.html', category: 'idle' },
+    { name: 'FNAF 4', emoji: '🪓', path: 'games/fnaf-4.html', category: 'horror' },
+    { name: 'FNAF 3', emoji: '🐻', path: 'games/fnaf-3.html', category: 'horror' },
+    { name: 'FNAF 2', emoji: '🦴', path: 'games/fnaf-2.html', category: 'horror' },
+    { name: 'FNAF 1', emoji: '🐻‍❄️', path: 'games/fnaf-1.html', category: 'horror' },
+
+    { name: 'Basket Bros', emoji: '🏀', path: 'games/basket-bros.html', category: 'sports' },
+    { name: 'Basketball Stars', emoji: '✨', path: 'games/basket-stars.html', category: 'sports' },
+    { name: 'Baseball Bros', emoji: '⚾', path: 'games/basketballs-bros-baseball.html', category: 'sports' },
 ];
+
+
+
 
 
 // ==================== STATE MANAGEMENT ==================== //
 let currentCategory = 'all';
 let soundEnabled = true;
-let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
 
 // ==================== SOUND EFFECTS ==================== //
-function playSound(type) {
+function playSound(type) { return; 
+    // Sound disabled per user request.
+
     if (!soundEnabled) return;
     
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -63,20 +76,31 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==================== RENDER GAMES ==================== //
 function renderGames(filter = '') {
     const gamesGrid = document.getElementById('gamesGrid');
-    gamesGrid.innerHTML = '';
-    
-    const filtered = gamesData.filter(game => {
-        const matchesSearch = game.name.toLowerCase().includes(filter.toLowerCase());
+    if (!gamesGrid) return;
+
+    // Debugging: if something is wrong with filtering/data, we’ll surface it.
+    gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-secondary);">Loading games...</p>';
+
+    const filtered = (Array.isArray(gamesData) ? gamesData : []).filter(game => {
+        const matchesSearch = String(game?.name || '').toLowerCase().includes(String(filter || '').toLowerCase());
         const matchesCategory = currentCategory === 'all' || game.category === currentCategory;
         return matchesSearch && matchesCategory;
     });
-    
-    if (filtered.length === 0) {
-        gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary);">No games found</p>';
+
+    if (!Array.isArray(gamesData) || gamesData.length === 0) {
+        gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color: var(--text-secondary);">No gamesData found (JS error?)</p>';
         return;
     }
-    
+
+    if (filtered.length === 0) {
+        gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary);">No games found (category: ' + String(currentCategory) + ', filter: ' + String(filter) + ')</p>';
+        return;
+    }
+
+    gamesGrid.innerHTML = '';
+
     filtered.forEach((game, index) => {
+
         const card = document.createElement('a');
         card.href = game.path;
         card.className = 'game-card';
@@ -86,12 +110,7 @@ function renderGames(filter = '') {
             addToRecentlyPlayed(game);
         };
         
-        const isFavorited = favorites.some(g => g.name === game.name);
-        
         card.innerHTML = `
-            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" onclick="toggleFavorite(event, '${game.name}')" title="Add to favorites">
-                ${isFavorited ? '❤️' : '🤍'}
-            </button>
             <div class="game-card-content">
                 <span class="game-emoji">${game.emoji}</span>
                 <span class="game-name">${game.name}</span>
@@ -133,7 +152,10 @@ function setupSoundToggle() {
     const soundToggle = document.getElementById('soundToggle');
     if (!soundToggle) return;
     
-    soundToggle.addEventListener('click', () => {
+soundToggle.addEventListener('click', () => { 
+        // Sound toggle disabled per user request
+        return;
+
         soundEnabled = !soundEnabled;
         soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
         localStorage.setItem('soundEnabled', soundEnabled);
@@ -145,26 +167,6 @@ function setupSoundToggle() {
         soundEnabled = JSON.parse(saved);
         soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
     }
-}
-
-// ==================== FAVORITES ==================== //
-function toggleFavorite(event, gameName) {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    playSound('click');
-    
-    const game = gamesData.find(g => g.name === gameName);
-    const index = favorites.findIndex(g => g.name === gameName);
-    
-    if (index > -1) {
-        favorites.splice(index, 1);
-    } else {
-        favorites.push(game);
-    }
-    
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    renderGames(document.getElementById('searchInput')?.value || '');
 }
 
 // ==================== RECENTLY PLAYED ==================== //

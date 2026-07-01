@@ -32,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (currentPage === 'home.html') {
         setupHomePage();
-    } else if (currentPage === 'games.html') {
-        renderGames();
     }
 
     addHoverSounds();
