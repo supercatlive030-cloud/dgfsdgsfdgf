@@ -659,6 +659,15 @@ body {
     overflow: hidden;
 }
 
+.update-card--blue {
+    background: rgba(6, 46, 96, 0.85);
+    border-color: rgba(21, 140, 255, 0.35);
+}
+
+.update-card--blue::before {
+    background: linear-gradient(135deg, rgba(0, 153, 255, 0.08), rgba(0, 193, 255, 0.16));
+}
+
 .update-card::before {
     content: '';
     position: absolute;
@@ -1327,6 +1336,15 @@ body {
     background: rgba(0, 217, 255, 0.05);
     border-left: 3px solid var(--primary-color);
     border-radius: 8px;
+}
+
+.modal-update-item--blue {
+    background: rgba(0, 147, 255, 0.12);
+    border-left-color: rgba(0, 193, 255, 0.65);
+}
+
+.modal-update-item--blue h4 {
+    color: #9be8ff;
 }
 
 .modal-update-item h4 {

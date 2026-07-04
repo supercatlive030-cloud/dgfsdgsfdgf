@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>diddys playhouse - Home</title>
+    <title>diddys playhouse - Home</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-icon">⚡</span>
-<span class="logo-text">diddys playhouse</span>
+                <span class="logo-text">diddys playhouse</span>
             </div>
             <div class="nav-controls">
                 <div class="theme-dropdown">
@@ -28,10 +28,7 @@
                 <a href="updates.html" class="nav-link">📰 Updates</a>
                 <a href="music.html" class="nav-link">🎵 Music</a>
                 <a href="apps.html" class="nav-link">🧩 Apps</a>
-
                 <button class="logout-btn" onclick="logout()">Logout</button>
-
-
             </div>
         </div>
     </nav>
@@ -45,8 +42,8 @@
     <!-- Welcome Section -->
     <section class="hero">
         <div class="hero-content">
-<h1 class="hero-title">Welcome to diddys playhouse</h1>
-            <p class="hero-subtitle">🎮 The Ultimate Unblocked Gaming Platform with a intresting name😳😳😳😳😳😳😳😳😳</p>
+            <h1 class="hero-title">Welcome to diddys playhouse</h1>
+            <p class="hero-subtitle">🎮 The ultimate unblocked gaming platform with a fresh new name.</p>
         </div>
     </section>
 
@@ -55,9 +52,10 @@
         <div class="featured-content">
             <div class="featured-text">
                 <h3>✨ Featured This Week</h3>
-                <p>Check out our newest games and updates. Jump in and experience the latest additions to File Club!</p>
+                <p>Check out our newest games and updates. Jump in and experience the latest additions to diddys playhouse!</p>
                 <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: 10px;">
                     <button class="featured-btn" onclick="document.location='games.html'">Browse Games</button>
+                    <button class="featured-btn" onclick="showWhatsNewModal(true)">✨ What's New</button>
                     <button class="featured-btn" style="background: linear-gradient(135deg, rgba(185, 102, 255, 0.9), rgba(0, 217, 255, 0.9));" onclick="document.location='donation.html'">💜 Donate</button>
                 </div>
             </div>
@@ -100,20 +98,17 @@
     <section class="announcements-section">
         <h2 class="section-title">📢 Announcements</h2>
         <div class="announcement-card">
-            <h3>Welcome to File Club!</h3>
+            <h3>Welcome to diddys playhouse!</h3>
             <p>This is your ultimate destination for unblocked games. Play anywhere, anytime. Connect with fellow gamers in our community chat. Have fun and enjoy!</p>
         </div>
     </section>
 
     <!-- What's New Modal -->
-  <div id="whatsNewModal" class="modal">
+    <div id="whatsNewModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>✨ What's New</h2>
                 <button class="modal-close" onclick="closeWhatsNewModal()">✕</button>
-            </div>
-            <div class="modal-summary" style="margin: 0.5rem 0 1rem; color: var(--text-secondary); line-height: 1.6;">
-                We renamed the website to “diddys playhouse”, added several new games to the game library, and fixed bugs to improve the games/updates experience.
             </div>
             <div class="modal-updates" style="display:flex; flex-direction:column; gap: 1rem;">
                 <!-- Rendered by updates_render.js -->
@@ -128,7 +123,6 @@
                 <h2>🎨 Customize Theme</h2>
                 <button class="customizer-close">✕</button>
             </div>
-            
             <div class="color-picker-group">
                 <label class="color-picker-label">Primary Color (Accents & Glow)</label>
                 <div class="color-input-wrapper">
@@ -136,7 +130,6 @@
                     <div class="color-value" id="primaryDisplay">#00d9ff</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Secondary Color (Highlights)</label>
                 <div class="color-input-wrapper">
@@ -144,7 +137,6 @@
                     <div class="color-value" id="secondaryDisplay">#ff006e</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Green Accent</label>
                 <div class="color-input-wrapper">
@@ -152,7 +144,6 @@
                     <div class="color-value" id="greenDisplay">#39ff14</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Purple Accent</label>
                 <div class="color-input-wrapper">
@@ -160,7 +151,6 @@
                     <div class="color-value" id="purpleDisplay">#b366ff</div>
                 </div>
             </div>
-
             <div class="customizer-actions">
                 <button class="customizer-btn customizer-save">💾 Save Theme</button>
                 <button class="customizer-btn customizer-reset">🔄 Reset</button>
@@ -176,12 +166,9 @@
     <script src="updates_render.js"></script>
     <script src="admin_portal_redirect.js"></script>
     <script>
-
-        // Secret trigger: type "mss" to access login.html
         let buffer = '';
         let lastKeystrokeTime = 0;
         let triggerCooldown = false;
-
 
         function triggerSecretLogin() {
             if (triggerCooldown) return;
@@ -196,7 +183,6 @@
         document.addEventListener('keydown', (e) => {
             if (triggerCooldown) return;
 
-            // Don't block typing in inputs, but allow the secret to still work on non-character keys.
             const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
             const isTypingField = tag === 'input' || tag === 'textarea' || tag === 'select';
             if (isTypingField && !(e.key && e.key.length === 1)) return;
@@ -215,7 +201,6 @@
             if (buffer === 'mss') triggerSecretLogin();
         });
 
-        // Also add a nearly-undiscoverable clickable secret (accessibility: hidden off-screen)
         (function addSecretButton() {
             if (document.getElementById('secretLoginBtn')) return;
 
@@ -224,8 +209,6 @@
             btn.type = 'button';
             btn.tabIndex = -1;
             btn.setAttribute('aria-hidden', 'true');
-
-            // Off-screen + near-invisible. Still clickable by mouse/coordinates.
             btn.style.position = 'fixed';
             btn.style.left = '-10000px';
             btn.style.top = '0px';
@@ -234,17 +217,10 @@
             btn.style.opacity = '0.001';
             btn.style.zIndex = '-1';
             btn.style.pointerEvents = 'auto';
-
-            // Add a label so it can be clicked if the element becomes discoverable.
             btn.textContent = '⚡';
-
             btn.addEventListener('click', triggerSecretLogin);
-
             document.body.appendChild(btn);
         })();
-
-
-        // Example sponsor boxes (replace the old quick button)
 
         (function () {
             if (document.getElementById('sponsorExampleBox')) return;
@@ -254,108 +230,89 @@
             wrap.style.position = 'fixed';
             wrap.style.top = '140px';
             wrap.style.right = '16px';
-
-
-
             wrap.style.zIndex = '200001';
             wrap.style.width = '260px';
             wrap.style.pointerEvents = 'auto';
 
-            // Add a tiny stylesheet + 2-slide rotating content.
             if (!document.getElementById('sponsorExampleCarouselStyles')) {
-              const style = document.createElement('style');
-              style.id = 'sponsorExampleCarouselStyles';
-              style.textContent = `
-                #sponsorExampleBox .sponsor-example-inner {
-                  margin-bottom: 10px;
-                  padding: 12px;
-                  border-radius: 12px;
-                  background: rgba(10,14,39,0.88);
-                  border: 1px solid rgba(0,217,255,0.25);
-                  backdrop-filter: blur(10px);
-                  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-                }
-
-                #sponsorExampleBox .sponsor-example-title {
-                  color: #fff;
-                  font-weight: 900;
-                  font-size: 14px;
-                  margin-bottom: 6px;
-                  line-height: 1.2;
-                }
-
-                #sponsorExampleBox .sponsor-example-slide {
-                  display: none;
-                  text-align: left;
-                }
-
-                #sponsorExampleBox .sponsor-example-slide.active {
-                  display: block;
-                  animation: sponsorExampleFadeIn 0.35s ease-out both;
-                }
-
-                @keyframes sponsorExampleFadeIn {
-                  from { opacity: 0; transform: translateY(4px); }
-                  to { opacity: 1; transform: translateY(0); }
-                }
-
-                #sponsorExampleBox .sponsor-example-link {
-                  display: inline-block;
-                  color: var(--primary-color);
-                  font-weight: 800;
-                  text-decoration: none;
-                  margin-top: 2px;
-                }
-
-                #sponsorExampleBox .sponsor-example-cta {
-                  font-size: 13px;
-                  color: rgba(255,255,255,0.85);
-                  margin-top: 2px;
-                  margin-bottom: 8px;
-                  line-height: 1.3;
-                }
-              `;
-              document.head.appendChild(style);
+                var style = document.createElement('style');
+                style.id = 'sponsorExampleCarouselStyles';
+                style.textContent = `
+                    #sponsorExampleBox .sponsor-example-inner {
+                        margin-bottom: 10px;
+                        padding: 12px;
+                        border-radius: 12px;
+                        background: rgba(10,14,39,0.88);
+                        border: 1px solid rgba(0,217,255,0.25);
+                        backdrop-filter: blur(10px);
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+                    }
+                    #sponsorExampleBox .sponsor-example-title {
+                        color: #fff;
+                        font-weight: 900;
+                        font-size: 14px;
+                        margin-bottom: 6px;
+                        line-height: 1.2;
+                    }
+                    #sponsorExampleBox .sponsor-example-slide {
+                        display: none;
+                        text-align: left;
+                    }
+                    #sponsorExampleBox .sponsor-example-slide.active {
+                        display: block;
+                        animation: sponsorExampleFadeIn 0.35s ease-out both;
+                    }
+                    @keyframes sponsorExampleFadeIn {
+                        from { opacity: 0; transform: translateY(4px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    #sponsorExampleBox .sponsor-example-link {
+                        display: inline-block;
+                        color: var(--primary-color);
+                        font-weight: 800;
+                        text-decoration: none;
+                        margin-top: 2px;
+                    }
+                    #sponsorExampleBox .sponsor-example-cta {
+                        font-size: 13px;
+                        color: rgba(255,255,255,0.85);
+                        margin-top: 2px;
+                        margin-bottom: 8px;
+                        line-height: 1.3;
+                    }
+                `;
+                document.head.appendChild(style);
             }
 
             wrap.innerHTML = [
-              '<div class="sponsor-example-inner">',
-              '  <div class="sponsor-example-slide active" data-slide="0">',
-              '    <div class="sponsor-example-title">Do you want your ad here?</div>',
-              '    <a class="sponsor-example-link" href="sponsor.html" target="_blank" rel="noopener noreferrer">Click here to learn more →</a>',
-              '  </div>',
-              '  <div class="sponsor-example-slide" data-slide="1">',
-              '    <div class="sponsor-example-title">Support us with a donation 💜</div>',
-              '    <div class="sponsor-example-cta">Your donation helps keep the platform running.</div>',
-              '    <a class="sponsor-example-link" href="donation.html">Donate now →</a>',
-              '  </div>',
-              '</div>'
+                '<div class="sponsor-example-inner">',
+                '  <div class="sponsor-example-slide active" data-slide="0">',
+                '    <div class="sponsor-example-title">Do you want your ad here?</div>',
+                '    <a class="sponsor-example-link" href="sponsor.html" target="_blank" rel="noopener noreferrer">Click here to learn more →</a>',
+                '  </div>',
+                '  <div class="sponsor-example-slide" data-slide="1">',
+                '    <div class="sponsor-example-title">Support us with a donation 💜</div>',
+                '    <div class="sponsor-example-cta">Your donation helps keep the platform running.</div>',
+                '    <a class="sponsor-example-link" href="donation.html">Donate now →</a>',
+                '  </div>',
+                '</div>'
             ].join('');
 
             const slides = wrap.querySelectorAll('.sponsor-example-slide');
             let current = 0;
 
             function showSlide(i) {
-              slides.forEach(s => s.classList.remove('active'));
-              slides[i].classList.add('active');
+                slides.forEach(s => s.classList.remove('active'));
+                slides[i].classList.add('active');
             }
 
-            // Rotate every 5 seconds
             setInterval(() => {
-              current = (current + 1) % slides.length;
-              showSlide(current);
+                current = (current + 1) % slides.length;
+                showSlide(current);
             }, 5000);
 
-
             document.body.appendChild(wrap);
-
-
         })();
     </script>
 </body>
 </html>
-
-
-
-
-

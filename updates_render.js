@@ -1,6 +1,29 @@
 (function () {
   const STORAGE_KEY = 'siteUpdates_v1';
 
+  const DEFAULT_UPDATES = [
+    {
+      id: 'default-rename',
+      icon: '✨',
+      title: 'Website renamed',
+      message: 'We renamed the website to “diddys playhouse”.',
+      dateText: 'Today',
+      createdAt: Date.now() - 1000,
+      showIn: 'both',
+      variant: 'blue'
+    },
+    {
+      id: 'default-games',
+      icon: '🎮',
+      title: 'New games & bug fixes',
+      message: 'We added several new games to the game library and fixed bugs to improve the games/updates experience.',
+      dateText: 'Today',
+      createdAt: Date.now(),
+      showIn: 'both',
+      variant: 'blue'
+    }
+  ];
+
   function safeParseJSON(raw, fallback) {
     try {
       return JSON.parse(raw);
@@ -22,13 +45,13 @@
 
   function getUpdates() {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
+    if (!raw) return DEFAULT_UPDATES.slice();
     const parsed = safeParseJSON(raw, []);
 
     // Support both array and { updates: [] }
-    if (Array.isArray(parsed)) return parsed;
-    if (parsed && Array.isArray(parsed.updates)) return parsed.updates;
-    return [];
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    if (parsed && Array.isArray(parsed.updates) && parsed.updates.length > 0) return parsed.updates;
+    return DEFAULT_UPDATES.slice();
   }
 
   function normalizeUpdate(u) {
@@ -51,6 +74,8 @@
     const icon = typeof u.icon === 'string' && u.icon.trim() ? u.icon.trim() : '✨';
     const dateText = typeof u.dateText === 'string' && u.dateText.trim() ? u.dateText.trim() : 'Today';
 
+    const variant = u.variant && typeof u.variant === 'string' ? u.variant : 'normal';
+
     return {
       id,
       title,
@@ -58,6 +83,7 @@
       icon,
       dateText,
       createdAt,
+      variant,
       // where it should show
       showIn:
         u.showIn && typeof u.showIn === 'string'
@@ -66,9 +92,15 @@
     };
   }
 
+  function getVariantClass(variant, prefix) {
+    return variant === 'blue' ? ` ${prefix}--blue` : '';
+  }
+
   function renderWhatsNew(updates) {
     const container = document.querySelector('#whatsNewModal .modal-updates');
     if (!container) return;
+
+    const hasSummary = !!document.querySelector('#whatsNewModal .modal-summary');
 
     // Filter
     const items = updates
@@ -91,8 +123,9 @@
         const safeTitle = escapeHtml(u.title);
         const safeMsg = escapeHtml(u.message);
         const safeIcon = escapeHtml(u.icon);
+        const variantClass = getVariantClass(u.variant, 'modal-update-item');
         return `
-          <div class="modal-update-item">
+          <div class="modal-update-item${variantClass}">
             <h4>${safeIcon} ${safeTitle}</h4>
             <p>${safeMsg}</p>
           </div>
@@ -114,7 +147,7 @@
       grid.innerHTML = `
         <div class="update-card" style="grid-column: 1/-1; text-align:center;">
           <div class="update-header" style="justify-content:center;">
-            <span class="update-icon">📰</span>
+            <span class="update-icon">✨</span>
             <h3>No updates yet</h3>
           </div>
           <p>We renamed the website to “diddys playhouse”, added several new games to the game library, and fixed bugs to improve the games/updates experience.</p>
@@ -131,14 +164,15 @@
         const safeMsg = escapeHtml(u.message);
         const safeIcon = escapeHtml(u.icon);
         const safeDate = escapeHtml(u.dateText);
+        const variantClass = getVariantClass(u.variant, 'update-card');
         return `
-          <div class="update-card">
+          <div class="update-card${variantClass}">
             <div class="update-header">
               <span class="update-icon">${safeIcon}</span>
               <h3>${safeTitle}</h3>
             </div>
             <p>${safeMsg}</p>
-            <span class="update-date">${escapeHtml(safeDate)}</span>
+            <span class="update-date">${safeDate}</span>
           </div>
         `;
       })

@@ -144,16 +144,17 @@ function updateStats() {
     }
 }
 
-function showWhatsNewModal() {
-    // Show modal only once per session
-    if (sessionStorage.getItem('whatsNewShown')) return;
-         const modal = document.getElementById('whatsNewModal');
-    if (modal) {
-        setTimeout(() => {
-            modal.classList.add('show');
-            sessionStorage.setItem('whatsNewShown', 'true');
-        }, 800);
-    }
+function showWhatsNewModal(force) {
+    const modal = document.getElementById('whatsNewModal');
+    if (!modal) return;
+
+    // Auto-show only happens once per session; manual requests still open the modal.
+    if (!force && sessionStorage.getItem('whatsNewShown')) return;
+
+    setTimeout(() => {
+        modal.classList.add('show');
+        sessionStorage.setItem('whatsNewShown', 'true');
+    }, 800);
 }
 
 function closeWhatsNewModal() {
