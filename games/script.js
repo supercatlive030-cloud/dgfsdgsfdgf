@@ -14,6 +14,7 @@ window.gamesData = window.gamesData || [
     { name: 'Awesome Tanks', emoji: '💥', path: 'games/awesome-tanks.html', category: 'action' },
     { name: 'Axis Football League', emoji: '⚽', path: 'games/axis-football-league.html', category: 'sports' },
     { name: 'Apple Shooter', emoji: '🍎', path: 'games/apple-shooter.html', category: 'arcade' },
+    { name: 'Matching Game', emoji: '🧩', path: 'games/matching-game.html', category: 'arcade' },
     { name: 'Betrayal.io', emoji: '🗡️', path: 'games/betrayal-io.html', category: 'action' },
     { name: 'Cookie Clicker', emoji: '🍪', path: 'games/cookie-clicker.html', category: 'idle' },
     { name: 'FNAF 4', emoji: '🪓', path: 'games/fnaf-4.html', category: 'horror' },
@@ -34,6 +35,13 @@ window.gamesData = window.gamesData || [
 let currentCategory = 'all';
 let soundEnabled = true;
 let recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+
+function getFnafAccessRestriction() {
+    const recent = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
+    const lastPlayedName = recent[0]?.name || '';
+    const hasPlayedOther = lastPlayedName && lastPlayedName !== 'FNAF 3';
+    return hasPlayedOther;
+}
 
 // ==================== SOUND EFFECTS ==================== //
 function playSound(type) { return; 
@@ -78,6 +86,8 @@ function renderGames(filter = '') {
     const gamesGrid = document.getElementById('gamesGrid');
     if (!gamesGrid) return;
 
+    const fnafRestricted = getFnafAccessRestriction();
+
     // Debugging: if something is wrong with filtering/data, we’ll surface it.
     gamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-secondary);">Loading games...</p>';
 
@@ -99,17 +109,27 @@ function renderGames(filter = '') {
 
     gamesGrid.innerHTML = '';
 
-    filtered.forEach((game, index) => {
+        const isFnaf = String(game.name || '').startsWith('FNAF');
 
-        const card = document.createElement('a');
-        card.href = game.path;
-        card.className = 'game-card';
-        card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
-        card.onclick = () => {
-            playSound('click');
-            addToRecentlyPlayed(game);
-        };
-        
+        if (isFnaf && fnafRestricted && game.name !== 'FNAF 3') {
+            card.href = '#';
+            card.className = 'game-card game-card-locked';
+            card.style.cursor = 'not-allowed';
+            card.setAttribute('aria-disabled', 'true');
+            card.onclick = (event) => {
+                event.preventDefault();
+                alert('Only FNAF 3 can be played right now because another game was played.');
+            };
+        } else {
+            card.href = game.path;
+            card.className = 'game-card';
+            card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
+            card.onclick = () => {
+                playSound('click');
+                addToRecentlyPlayed(game);
+            };
+        }
+
         card.innerHTML = `
             <div class="game-card-content">
                 <span class="game-emoji">${game.emoji}</span>
@@ -117,7 +137,7 @@ function renderGames(filter = '') {
                 <span class="game-category">${game.category}</span>
             </div>
         `;
-        
+
         gamesGrid.appendChild(card);
     });
 }

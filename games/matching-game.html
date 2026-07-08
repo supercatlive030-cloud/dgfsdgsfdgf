@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS3 Matching Game - Unblocked Games</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="matching-game/css/matchgame.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      min-height: 100%;
+      color: #fff;
+    }
+    body {
+      overflow: hidden;
+    }
+    .matching-game-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+      background: #08121f;
+    }
+    .matching-game-header {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .matching-game-header h1 {
+      margin: 0;
+      color: #00d9ff;
+      font-size: 1.6rem;
+    }
+    .matching-game-header .game-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .matching-game-header a,
+    .matching-game-header button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(0, 217, 255, 0.18);
+      border: 1px solid rgba(0, 217, 255, 0.35);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+    .matching-game-header button:hover,
+    .matching-game-header a:hover {
+      background: rgba(0, 217, 255, 0.28);
+    }
+    #game-wrapper {
+      width: 100%;
+      max-width: 880px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #game {
+      margin: 0 auto;
+      position: relative;
+    }
+    #popup {
+      z-index: 2;
+    }
+    .game-credits {
+      width: 100%;
+      max-width: 880px;
+      margin-top: 16px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="matching-game-page">
+    <div class="matching-game-header">
+      <h1>✨ CSS3 Matching Game</h1>
+      <div class="game-buttons">
+        <a href="../games.html">🏠 Home</a>
+        <button id="fullscreenBtn" type="button">⛶ Fullscreen</button>
+      </div>
+    </div>
+
+    <div id="game-wrapper">
+      <div id="game">
+        <div id="cards">
+          <div class="card">
+            <div class="face front"></div>
+            <div class="face back"></div>
+          </div>
+        </div>
+      </div>
+      <section id="popup" class="hide">
+        <div id="popup-bg"></div>
+        <div id="popup-box">
+          <div class="ribbon hide">
+            <div class="ribbon-body"><span>New Record</span></div>
+            <div class="triangle"></div>
+          </div>
+          <div id="popup-box-content">
+            <h1>You Won!</h1>
+            <p>Your Score:</p>
+            <p><span class="score">13</span></p>
+            <p><small>Last Score: <span class="last-score">20</span><br>
+            Saved on: <span class="saved-time">00/00/0000 00:00am</span></small></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="game-credits">
+      <p>Classic CSS3 matching game. Match the cards before time runs out.</p>
+      <p>Original game source: makzan HTML5 Games Examples.</p>
+    </div>
+  </div>
+
+  <script src="matching-game/js/jquery-1.6.min.js"></script>
+  <script src="matching-game/js/html5games.matchgame.js"></script>
+  <script>
+    document.getElementById('fullscreenBtn').addEventListener('click', function () {
+      var game = document.getElementById('game');
+      var request = game.requestFullscreen || game.webkitRequestFullscreen || game.mozRequestFullScreen || game.msRequestFullscreen;
+      if (request) {
+        request.call(game).catch(function () {});
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,46 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cookie Clicker - Unblocked Games</title>
-  <link rel="stylesheet" href="../styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cookie Clicker</title>
   <style>
-    .game-container {
-      width: 100%;
-      height: 700px;
-      margin-bottom: 20px;
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: #0a0e27;
+      color: #fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-
+    .wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      flex: 0 0 auto;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0,217,255,0.25);
+      background: rgba(10, 14, 39, 0.75);
+      backdrop-filter: blur(10px);
+    }
+    header .title { font-weight: 800; color: #00d9ff; }
+    header .hint { font-size: 12px; color: rgba(255,255,255,0.7); }
+    .frame {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
     iframe {
+      width: 100%;
+      height: 100%;
       border: 0;
+      background: #000;
     }
   </style>
 </head>
 <body>
-  <div class="container" style="padding: 20px; max-width: 100%;">
-    <div class="game-header">
-      <h1>Cookie Clicker</h1>
-      <a href="../games.html" class="btn-home">🏠 Home</a>
-    </div>
-
-    <div class="game-container">
-      <!-- NOTE: Cookie Clicker is served by an external host.
-           If the iframe is blocked by that host, the game may not load. -->
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="title">🍪 Cookie Clicker</div>
+        <div class="hint">Tip: if it doesn’t load, refresh (some browsers block third-party embeds).</div>
+      </div>
+      <div>
+        <a href="../games.html" class="btn-home" style="margin-right: 10px; text-decoration: none; color: #00d9ff; font-weight: 700;">🏠 Home</a>
+        <button id="fullscreenBtn" style="color: #fff; background: rgba(0,217,255,0.15); border: 1px solid rgba(0,217,255,0.35); border-radius: 10px; padding: 8px 12px; cursor: pointer;">⛶ Fullscreen</button>
+      </div>
+    </header>
+    <div class="frame">
       <iframe
         id="cookieClickerFrame"
         title="Cookie Clicker"
-        name="cookieClickerFrame"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox"
         allowfullscreen
-        scrolling="no"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
-        src="https://orteil.dashnet.org/cookieclicker/"
-        style="width: 100%; height: 100%;"
-      ></iframe>
+        allow="autoplay; fullscreen; microphone; camera; encrypted-media; clipboard-write"
+        src="https://orteil.dashnet.org/cookieclicker/">
+      </iframe>
     </div>
   </div>
 
-  <script src="jome.js"></script>
+  <script>
+    (function () {
+      const frame = document.getElementById('cookieClickerFrame');
+      const urlCandidates = [
+        'https://orteil.dashnet.org/cookieclicker/',
+        'https://cookieclicker.net/',
+        'https://orteil.dashnet.org/cookieclicker/'
+      ];
+
+      for (const u of urlCandidates) {
+        frame.src = u;
+        break;
+      }
+
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', function () {
+          if (!frame) return;
+          const request = frame.requestFullscreen || frame.webkitRequestFullscreen || frame.mozRequestFullScreen || frame.msRequestFullscreen;
+          if (request) {
+            request.call(frame).catch(function () {
+              const root = document.documentElement;
+              const fallback = root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen;
+              if (fallback) fallback.call(root).catch(function () {});
+            });
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
 
