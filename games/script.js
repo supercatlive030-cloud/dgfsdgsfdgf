@@ -44,10 +44,12 @@ function getFnafAccessRestriction() {
 }
 
 // ==================== SOUND EFFECTS ==================== //
-function playSound(type) { return; 
+function playSound(type) {
     // Sound disabled per user request.
+    return;
 
     if (!soundEnabled) return;
+
     
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
@@ -109,6 +111,8 @@ function renderGames(filter = '') {
 
     gamesGrid.innerHTML = '';
 
+    filtered.forEach((game, index) => {
+        const card = document.createElement('a');
         const isFnaf = String(game.name || '').startsWith('FNAF');
 
         if (isFnaf && fnafRestricted && game.name !== 'FNAF 3') {
