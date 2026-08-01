@@ -4,85 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apple Shooter - Unblocked Games</title>
-  <link rel="stylesheet" href="../styles.css" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-      background: black;
-    }
-
-    .fullscreen-home-btn {
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    .game-player { width: 100vw; height: 100vh; }
+    iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+    .home-btn {
       position: fixed;
       top: 14px;
       left: 14px;
-      z-index: 9999;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      z-index: 2147483647;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
       text-decoration: none;
-      background: rgba(10, 14, 39, 0.85);
+      background: rgba(10, 14, 39, 0.9);
       color: #ffffff;
       border: 1px solid rgba(0, 217, 255, 0.35);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
       backdrop-filter: blur(10px);
-      font-size: 20px;
+      font-size: 18px;
       transition: transform 0.15s ease, background 0.15s ease;
     }
-
-    .fullscreen-home-btn:hover {
+    .home-btn:hover {
       transform: translateY(-2px);
-      background: rgba(10, 14, 39, 0.95);
-    }
-
-    iframe {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+      background: rgba(10, 14, 39, 0.97);
     }
   </style>
 </head>
 <body>
-  <a href="../games.html" class="fullscreen-home-btn" aria-label="Home" title="Home" onclick="handleHomeClick(event)">🏠</a>
-
-  <iframe
-    src="https://www.miniplay.com/embed/basketball-superstars"
-    width="100%"
-    height="100%"
-    style="border:none; position:fixed; top:0; left:0;"
-    allowfullscreen
-  ></iframe>
-
-  <script>
-    function handleHomeClick(e) {
-      // Prevent browser leave confirmation.
-      try {
-        if (e) e.preventDefault();
-      } catch (err) {}
-      window.location.href = '../games.html';
-    }
-
-    window.addEventListener('beforeunload', (e) => {
-      // Remove confirmation prompts; leave normally.
-      try {
-        if (e) {
-          e.preventDefault();
-          e.returnValue = '';
-        }
-      } catch (err) {}
-    });
-  </script>
-
-
-    <script src="jome.js"></script>
+  <a href="../games.html" class="home-btn" aria-label="Home" title="Home">🏠</a>
+  <div class="game-player">
+    <iframe
+      src="https://www.miniplay.com/embed/basketball-superstars"
+      allowfullscreen>
+    </iframe>
+  </div>
 </body>
 </html>
-

@@ -3,22 +3,32 @@
 
   const DEFAULT_UPDATES = [
     {
-      id: 'default-rename',
-      icon: '✨',
-      title: 'Website renamed',
-      message: 'We renamed the website to “diddys playhouse”.',
+      id: 'update-new-games',
+      icon: '🎮',
+      title: 'New games added',
+      message: 'We added some new games to the library, including 1 on 1 Soccer and Drive Mad!',
       dateText: 'Today',
-      createdAt: Date.now() - 1000,
+      createdAt: Date.now() - 3000,
       showIn: 'both',
       variant: 'blue'
     },
     {
-      id: 'default-games',
-      icon: '🎮',
-      title: 'New games & bug fixes',
-      message: 'We added several new games to the game library and fixed bugs to improve the games/updates experience.',
+      id: 'update-game-player-only',
+      icon: '🕹️',
+      title: 'Clean game player for every game',
+      message: 'All games now open in a clean fullscreen player with only the game visible and a Home button to get back. No more extra buttons or site styling cluttering your screen.',
       dateText: 'Today',
-      createdAt: Date.now(),
+      createdAt: Date.now() - 2000,
+      showIn: 'both',
+      variant: 'blue'
+    },
+    {
+      id: 'update-fnaf-player-only',
+      icon: '🐻',
+      title: 'FNAF games cleaned up',
+      message: 'FNAF 1, 2, 3, and 4 now open in a clean game-only view with just a Home button — the fullscreen button was removed so nothing distracts from the game.',
+      dateText: 'Today',
+      createdAt: Date.now() - 1000,
       showIn: 'both',
       variant: 'blue'
     }
@@ -111,7 +121,7 @@
       container.innerHTML = '';
       container.insertAdjacentHTML(
         'beforeend',
-        '<div class="modal-update-item"><h4>✨ No updates yet</h4><p>We renamed the website to “diddys playhouse”, added several new games to the game library, and fixed bugs to improve the games/updates experience.</p></div>'
+        '<div class="modal-update-item"><h4>✨ No updates yet</h4><p>No new updates right now — check back soon!</p></div>'
       );
       return;
     }
@@ -150,7 +160,7 @@
             <span class="update-icon">✨</span>
             <h3>No updates yet</h3>
           </div>
-          <p>We renamed the website to “diddys playhouse”, added several new games to the game library, and fixed bugs to improve the games/updates experience.</p>
+          <p>No new updates right now — check back soon!</p>
         </div>
       `;
       return;

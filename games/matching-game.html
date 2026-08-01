@@ -4,65 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CSS3 Matching Game - Unblocked Games</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="matching-game/css/matchgame.css" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      min-height: 100%;
-      color: #fff;
-    }
-    body {
-      overflow: hidden;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    body { color: #fff; }
     .matching-game-page {
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       padding: 20px;
       background: #08121f;
-    }
-    .matching-game-header {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .matching-game-header h1 {
-      margin: 0;
-      color: #00d9ff;
-      font-size: 1.6rem;
-    }
-    .matching-game-header .game-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .matching-game-header a,
-    .matching-game-header button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 0.9rem 1rem;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 700;
-      color: #fff;
-      background: rgba(0, 217, 255, 0.18);
-      border: 1px solid rgba(0, 217, 255, 0.35);
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-    }
-    .matching-game-header button:hover,
-    .matching-game-header a:hover {
-      background: rgba(0, 217, 255, 0.28);
     }
     #game-wrapper {
       width: 100%;
@@ -72,34 +25,37 @@
       justify-content: center;
       align-items: center;
     }
-    #game {
-      margin: 0 auto;
-      position: relative;
+    #game { margin: 0 auto; position: relative; }
+    #popup { z-index: 2; }
+    .home-btn {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 2147483647;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      text-decoration: none;
+      background: rgba(10, 14, 39, 0.9);
+      color: #ffffff;
+      border: 1px solid rgba(0, 217, 255, 0.35);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(10px);
+      font-size: 18px;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
-    #popup {
-      z-index: 2;
-    }
-    .game-credits {
-      width: 100%;
-      max-width: 880px;
-      margin-top: 16px;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      text-align: center;
+    .home-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(10, 14, 39, 0.97);
     }
   </style>
 </head>
 <body>
+  <a href="../games.html" class="home-btn" aria-label="Home" title="Home">🏠</a>
   <div class="matching-game-page">
-    <div class="matching-game-header">
-      <h1>✨ CSS3 Matching Game</h1>
-      <div class="game-buttons">
-        <a href="../games.html">🏠 Home</a>
-        <button id="fullscreenBtn" type="button">⛶ Fullscreen</button>
-      </div>
-    </div>
-
     <div id="game-wrapper">
       <div id="game">
         <div id="cards">
@@ -126,23 +82,9 @@
         </div>
       </section>
     </div>
-
-    <div class="game-credits">
-      <p>Classic CSS3 matching game. Match the cards before time runs out.</p>
-      <p>Original game source: makzan HTML5 Games Examples.</p>
-    </div>
   </div>
 
   <script src="matching-game/js/jquery-1.6.min.js"></script>
   <script src="matching-game/js/html5games.matchgame.js"></script>
-  <script>
-    document.getElementById('fullscreenBtn').addEventListener('click', function () {
-      var game = document.getElementById('game');
-      var request = game.requestFullscreen || game.webkitRequestFullscreen || game.mozRequestFullScreen || game.msRequestFullscreen;
-      if (request) {
-        request.call(game).catch(function () {});
-      }
-    });
-  </script>
 </body>
 </html>

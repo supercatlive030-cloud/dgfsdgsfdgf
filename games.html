@@ -37,9 +37,22 @@
         </div>
     </nav>
 
+    <!-- Continue Playing Section -->
+    <section class="recently-played-section continue-playing-section" id="recentSection" style="display:none;">
+        <h2 class="section-title">▶️ Continue Playing</h2>
+        <div class="recently-played-grid" id="recentGames">
+            <p class="continue-empty" style="text-align: center; color: var(--text-secondary); grid-column: 1/-1; padding: 2rem;">No games played yet. Start playing!</p>
+        </div>
+    </section>
+
     <!-- Games Section -->
     <section class="games-section">
-        <h1 class="section-title">🎮 All Games</h1>
+        <div class="games-section-header">
+            <h1 class="section-title">🎮 All Games</h1>
+            <button class="random-wheel-btn" id="randomWheelBtn" title="Random Game Wheel">
+                🎡 Random Game
+            </button>
+        </div>
 
 
 
@@ -51,8 +64,25 @@
 
 
 
-
     </section>
+
+    <!-- Random Game Wheel Modal -->
+    <div id="randomWheelModal" class="wheel-modal">
+        <div class="wheel-modal-content">
+            <div class="wheel-modal-header">
+                <h2>🎡 Random Game Wheel</h2>
+                <button class="wheel-close" id="wheelCloseBtn">✕</button>
+            </div>
+            <p class="wheel-subtitle">Spin the wheel and it will pick a random game for you!</p>
+            <div class="wheel-wrapper">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="randomWheel">
+                    <div class="wheel-center" id="wheelCenter">🎮</div>
+                </div>
+            </div>
+            <button class="wheel-spin-btn" id="wheelSpinBtn">🎰 Spin the Wheel</button>
+        </div>
+    </div>
 
     <!-- Color Customizer Modal -->
     <div id="customizerModal" class="customizer-modal">
@@ -105,6 +135,7 @@
     <script src="auth.js"></script>
     <script src="ads.js"></script>
     <script src="games/script.js"></script>
+    <script src="wheel.js"></script>
 
     <script>
         // Example sponsor boxes (replace the old quick button)

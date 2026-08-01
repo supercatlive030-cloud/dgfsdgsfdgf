@@ -62,9 +62,14 @@
         </div>
     </section>
 
-    <!-- Recently Played -->
+    <!-- Continue Playing -->
     <section class="recently-played-section">
-        <h2 class="section-title">🕐 Recently Played</h2>
+        <div class="games-section-header">
+            <h2 class="section-title">▶️ Continue Playing</h2>
+            <button class="random-wheel-btn" id="randomWheelBtn" title="Random Game Wheel">
+                🎡 Random Game
+            </button>
+        </div>
         <div class="recently-played-grid" id="recentlyPlayedContainer">
             <p style="text-align: center; color: var(--text-secondary); grid-column: 1/-1; padding: 2rem;">No games played yet. Start playing!</p>
         </div>
@@ -85,7 +90,7 @@
             <span class="stat-label">Active Players</span>
         </div>
         <div class="stat-card">
-            <span class="stat-number">7</span>
+            <span class="stat-number" id="gameCount">—</span>
             <span class="stat-label">Games</span>
         </div>
         <div class="stat-card">
@@ -102,6 +107,24 @@
             <p>This is your ultimate destination for unblocked games. Play anywhere, anytime. Connect with fellow gamers in our community chat. Have fun and enjoy!</p>
         </div>
     </section>
+
+    <!-- Random Game Wheel Modal -->
+    <div id="randomWheelModal" class="wheel-modal">
+        <div class="wheel-modal-content">
+            <div class="wheel-modal-header">
+                <h2>🎡 Random Game Wheel</h2>
+                <button class="wheel-close" id="wheelCloseBtn">✕</button>
+            </div>
+            <p class="wheel-subtitle">Spin the wheel and it will pick a random game for you!</p>
+            <div class="wheel-wrapper">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="randomWheel">
+                    <div class="wheel-center" id="wheelCenter">🎮</div>
+                </div>
+            </div>
+            <button class="wheel-spin-btn" id="wheelSpinBtn">🎰 Spin the Wheel</button>
+        </div>
+    </div>
 
     <!-- What's New Modal -->
     <div id="whatsNewModal" class="modal">
@@ -165,6 +188,7 @@
     <script src="updates_widget.js"></script>
     <script src="updates_render.js"></script>
     <script src="admin_portal_redirect.js"></script>
+    <script src="wheel.js"></script>
     <script>
         let buffer = '';
         let lastKeystrokeTime = 0;

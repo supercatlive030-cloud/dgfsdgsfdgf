@@ -21,8 +21,24 @@ const gamesData = [
     { name: 'Awesome Tanks', emoji: '💥', path: 'games/awesome-tanks.html', category: 'action' },
     { name: 'Axis Football League', emoji: '⚽', path: 'games/axis-football-league.html', category: 'sports' },
     { name: 'Apple Shooter', emoji: '🍎', path: 'games/apple-shooter.html', category: 'arcade' },
+    { name: 'Matching Game', emoji: '🧩', path: 'games/matching-game.html', category: 'arcade' },
     { name: 'Betrayal.io', emoji: '🗡️', path: 'games/betrayal-io.html', category: 'action' },
+    { name: 'Cookie Clicker', emoji: '🍪', path: 'games/cookie-clicker.html', category: 'idle' },
+    { name: 'FNAF 4', emoji: '🪓', path: 'games/fnaf-4.html', category: 'horror' },
+    { name: 'FNAF 3', emoji: '🐻', path: 'games/fnaf-3.html', category: 'horror' },
+    { name: 'FNAF 2', emoji: '🦴', path: 'games/fnaf-2.html', category: 'horror' },
+    { name: 'FNAF 1', emoji: '🐻‍❄️', path: 'games/fnaf-1.html', category: 'horror' },
+    { name: 'Basket Bros', emoji: '🏀', path: 'games/basket-bros.html', category: 'sports' },
+    { name: 'Basketball Stars', emoji: '✨', path: 'games/basket-stars.html', category: 'sports' },
+    { name: 'Baseball Bros', emoji: '⚾', path: 'games/basketballs-bros-baseball.html', category: 'sports' },
+
+    // Newest additions:
+    { name: '1 on 1 Soccer', emoji: '⚽', path: 'games/1on1soccer.html', category: 'sports' },
+    { name: 'Drive Mad', emoji: '🚗', path: 'games/drive-mad.html', category: 'arcade' },
 ];
+
+// Expose on window so shared scripts (e.g. wheel.js) can read the game list.
+window.gamesData = gamesData;
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,7 +121,7 @@ function renderRecentlyPlayed() {
     const recentlyPlayed = JSON.parse(localStorage.getItem('recentlyPlayed')) || [];
     
     if (recentlyPlayed.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No games played yet. Start playing!</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No games yet. Start playing and your progress will show up here!</p>';
         return;
     }
     
@@ -141,6 +157,10 @@ function updateStats() {
 
     if (document.getElementById('messageCount')) {
         document.getElementById('messageCount').textContent = messages.length || '0';
+    }
+
+    if (document.getElementById('gameCount')) {
+        document.getElementById('gameCount').textContent = gamesData.length || '0';
     }
 }
 

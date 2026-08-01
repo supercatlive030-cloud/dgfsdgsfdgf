@@ -1056,7 +1056,7 @@ body {
 }
 
 .recently-played-card::before {
-    content: 'Recently Played';
+    content: 'Continue Playing';
     position: absolute;
     top: 5px;
     left: 5px;
@@ -1081,6 +1081,208 @@ body {
 .recently-played-name {
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+/* ==================== GAMES SECTION HEADER & RANDOM WHEEL BUTTON ==================== */
+.games-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.games-section-header .section-title {
+    margin-bottom: 0;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.random-wheel-btn {
+    position: relative;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.6rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25);
+}
+
+.random-wheel-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 34px rgba(0, 217, 255, 0.4);
+}
+
+.random-wheel-btn:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* ==================== RANDOM GAME WHEEL MODAL ==================== */
+.wheel-modal {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.wheel-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wheel-modal-content {
+    background: rgba(20, 30, 60, 0.96);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 217, 255, 0.35);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 560px;
+    width: 92%;
+    max-height: 92vh;
+    overflow-y: auto;
+    text-align: center;
+    animation: slideDown 0.3s ease-out;
+}
+
+.wheel-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.wheel-modal-header h2 {
+    font-size: 1.7rem;
+    color: var(--primary-color);
+}
+
+.wheel-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wheel-close:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+.wheel-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.wheel-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto 1.5rem;
+}
+
+.wheel {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 6px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.35), 0 18px 50px rgba(0, 0, 0, 0.55);
+    background: conic-gradient(#00d9ff 0deg 90deg, #ff006e 90deg 180deg, #b366ff 180deg 270deg, #39ff14 270deg 360deg);
+    will-change: transform;
+    transition: transform 4.5s cubic-bezier(0.12, 0.8, 0.2, 1);
+}
+
+.wheel-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: 900;
+    font-size: 1.05rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.wheel-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(10, 14, 39, 0.95);
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 24px rgba(0, 217, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #fff;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 34px solid var(--secondary-color);
+    z-index: 6;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+}
+
+.wheel-spin-btn {
+    display: inline-block;
+    padding: 0.9rem 2.4rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25);
+}
+
+.wheel-spin-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 34px rgba(0, 217, 255, 0.4);
+}
+
+.wheel-spin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.continue-playing-section {
+    margin-top: 100px;
 }
 
 /* ==================== FEATURED BANNER ==================== */

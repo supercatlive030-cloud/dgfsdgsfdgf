@@ -25,6 +25,10 @@ window.gamesData = window.gamesData || [
     { name: 'Basket Bros', emoji: '🏀', path: 'games/basket-bros.html', category: 'sports' },
     { name: 'Basketball Stars', emoji: '✨', path: 'games/basket-stars.html', category: 'sports' },
     { name: 'Baseball Bros', emoji: '⚾', path: 'games/basketballs-bros-baseball.html', category: 'sports' },
+
+    // Newest additions:
+    { name: '1 on 1 Soccer', emoji: '⚽', path: 'games/1on1soccer.html', category: 'sports' },
+    { name: 'Drive Mad', emoji: '🚗', path: 'games/drive-mad.html', category: 'arcade' },
 ];
 
 
@@ -211,6 +215,8 @@ function displayRecentlyPlayed() {
     if (!recentSection || recentlyPlayed.length === 0) return;
     
     recentSection.style.display = 'block';
+    const emptyMsg = recentGrid.querySelector('.continue-empty');
+    if (emptyMsg) emptyMsg.style.display = 'none';
     recentGrid.innerHTML = '';
     
     recentlyPlayed.forEach((game, index) => {
