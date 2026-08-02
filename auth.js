@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If on protected pages but not authenticated, redirect to index.
     // Allow returning from game pages (some games redirect users to home).
-    const isHomeOrChatOrGames = ['home.html', 'chat.html', 'games.html'].includes(currentPage);
+    const isHomeOrChatOrGames = ['home.html', 'chat.html', 'games.html', 'favorites.html'].includes(currentPage);
 
     // If on protected pages but not authenticated, redirect to login.
     // Important: do NOT redirect to home.html when already on home.html,

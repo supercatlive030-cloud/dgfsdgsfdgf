@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>diddys playhouse - Favorites</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-particles"></div>
+    <div class="background-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">diddys playhouse</span>
+            </div>
+            <div class="nav-controls">
+                <div class="theme-dropdown">
+                    <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+                    <div class="theme-menu" id="themeMenu"></div>
+                </div>
+                <a href="home.html" class="nav-link">🏠 Home</a>
+                <a href="games.html" class="nav-link">🎮 Games</a>
+                <a href="favorites.html" class="nav-link">
+                    ❤️ Favorites
+                    <span id="favoritesBadge" class="fav-badge" style="display:none;">0</span>
+                </a>
+                <a href="chat.html" class="nav-link">💬 Chat</a>
+                <a href="ideas.html" class="nav-link">💡 Ideas</a>
+                <a href="music.html" class="nav-link">🎵 Music</a>
+                <a href="admin.html" class="nav-link">🔧 Admin</a>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Favorites Section -->
+    <section class="games-section" style="margin-top: 100px;">
+        <div class="games-section-header">
+            <h1 class="section-title">❤️ Your Favorites</h1>
+            <div class="fav-controls">
+                <input type="text" id="favSearchInput" class="fav-search-input" placeholder="🔍 Search favorites..." />
+                <select id="favSortSelect" class="fav-sort-select">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="alpha-asc">Alphabetical A-Z</option>
+                    <option value="alpha-desc">Alphabetical Z-A</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Stats Card -->
+        <div class="fav-stats-card" id="favStatsCard">
+            <div class="fav-stats-content" id="favStatsContent">
+                Loading stats...
+            </div>
+        </div>
+
+        <div class="games-grid" id="favoritesGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Color Customizer Modal -->
+    <div id="customizerModal" class="customizer-modal">
+        <div class="customizer-content">
+            <div class="customizer-header">
+                <h2>🎨 Customize Theme</h2>
+                <button class="customizer-close">✕</button>
+            </div>
+            <div class="color-picker-group">
+                <label class="color-picker-label">Primary Color (Accents & Glow)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="primaryColorInput" class="color-input" data-color-input="primary">
+                    <div class="color-value" id="primaryDisplay">#00d9ff</div>
+                </div>
+            </div>
+            <div class="color-picker-group">
+                <label class="color-picker-label">Secondary Color (Highlights)</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="secondaryColorInput" class="color-input" data-color-input="secondary">
+                    <div class="color-value" id="secondaryDisplay">#ff006e</div>
+                </div>
+            </div>
+            <div class="color-picker-group">
+                <label class="color-picker-label">Green Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="greenColorInput" class="color-input" data-color-input="green">
+                    <div class="color-value" id="greenDisplay">#39ff14</div>
+                </div>
+            </div>
+            <div class="color-picker-group">
+                <label class="color-picker-label">Purple Accent</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="purpleColorInput" class="color-input" data-color-input="purple">
+                    <div class="color-value" id="purpleDisplay">#b366ff</div>
+                </div>
+            </div>
+            <div class="customizer-actions">
+                <button class="customizer-btn customizer-save">💾 Save Theme</button>
+                <button class="customizer-btn customizer-reset">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="auth.js"></script>
+    <script src="ads.js"></script>
+    <script src="favorites.js"></script>
+    <script src="games/script.js"></script>
+
+    <script>
+        // ==================== FAVORITES PAGE ==================== //
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFavoritesPage();
+            setupFavPageListeners();
+        });
+
+        function renderFavoritesPage() {
+            const grid = document.getElementById('favoritesGrid');
+            const statsEl = document.getElementById('favStatsContent');
+            if (!grid) return;
+
+            const manager = window.favoritesManager;
+            let favorites = manager.getFavorites();
+
+            // Apply sorting
+            const sortMode = document.getElementById('favSortSelect')?.value || 'newest';
+            favorites = manager.sortFavorites(favorites, sortMode);
+
+            // Apply search
+            const query = document.getElementById('favSearchInput')?.value || '';
+            favorites = manager.searchFavorites(favorites, query);
+
+            // Render stats
+            if (statsEl) {
+                const stats = manager.getStats(favorites);
+                const total = stats.total;
+                delete stats.total;
+                const statEntries = Object.entries(stats);
+                let statsHTML = '<div class="fav-stat-item"><span class="fav-stat-number">' + total + '</span> Favorite Games</div>';
+                statEntries.forEach(([cat, count]) => {
+                    statsHTML += '<div class="fav-stat-item"><span class="fav-stat-number">' + count + '</span> ' + cat.charAt(0).toUpperCase() + cat.slice(1) + '</div>';
+                });
+                statsEl.innerHTML = statsHTML;
+            }
+
+            // Render grid
+            if (favorites.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 3rem; font-size: 1.1rem;">No favorite games yet.<br>Go to <a href="games.html" style="color: var(--primary-color);">Games</a> and click the star ⭐ on any game to add it here!</p>';
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            favorites.forEach((fav, index) => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.style.animation = 'fadeInUp 0.6s ease-out ' + (index * 0.05) + 's both';
+
+                // Use emoji from game data if available, or default to 🎮
+                const gameData = (window.gamesData || []).find(g => (g.path || g.name) === (fav.url || fav.title));
+                const emoji = gameData ? gameData.emoji : '🎮';
+                const category = fav.category || gameData?.category || 'Other';
+                const url = fav.url || (gameData ? gameData.path : '#');
+
+                card.innerHTML = `
+                    <div class="game-card-content">
+                        <span class="game-emoji">${emoji}</span>
+                        <span class="game-name">${fav.title}</span>
+                        <span class="game-category">${category}</span>
+                        <div class="fav-card-actions">
+                            <a href="${url}" class="fav-play-btn">▶️ Play</a>
+                            <button class="fav-remove-btn" data-fav-key="${fav.id}">💔 Remove</button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Attach remove handlers
+            grid.querySelectorAll('.fav-remove-btn').forEach((btn) => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const key = this.dataset.favKey;
+                    const manager = window.favoritesManager;
+                    manager.removeFavorite(key);
+                    showFavToast('💔 Removed from Favorites');
+                    // Animate removal
+                    const card = this.closest('.game-card');
+                    if (card) {
+                        card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                        card.style.transform = 'scale(0.8)';
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            renderFavoritesPage();
+                        }, 300);
+                    } else {
+                        renderFavoritesPage();
+                    }
+                });
+            });
+        }
+
+        function setupFavPageListeners() {
+            const searchInput = document.getElementById('favSearchInput');
+            const sortSelect = document.getElementById('favSortSelect');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', () => renderFavoritesPage());
+            }
+            if (sortSelect) {
+                sortSelect.addEventListener('change', () => renderFavoritesPage());
+            }
+        }
+    </script>
+</body>
+</html>

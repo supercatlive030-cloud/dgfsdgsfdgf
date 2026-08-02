@@ -119,12 +119,25 @@ function renderGames(filter = '') {
         const card = document.createElement('a');
         const isFnaf = String(game.name || '').startsWith('FNAF');
 
+        const handleCardClick = (event) => {
+            // If the favorite star was clicked, only prevent navigation —
+            // let the event bubble to the document-level favorite handler.
+            if (event.target.closest('.favorite-btn')) {
+                event.preventDefault();
+                return;
+            }
+        };
+
         if (isFnaf && fnafRestricted && game.name !== 'FNAF 3') {
             card.href = '#';
             card.className = 'game-card game-card-locked';
             card.style.cursor = 'not-allowed';
             card.setAttribute('aria-disabled', 'true');
             card.onclick = (event) => {
+                if (event.target.closest('.favorite-btn')) {
+                    event.preventDefault();
+                    return;
+                }
                 event.preventDefault();
                 alert('Only FNAF 3 can be played right now because another game was played.');
             };
@@ -132,13 +145,26 @@ function renderGames(filter = '') {
             card.href = game.path;
             card.className = 'game-card';
             card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
-            card.onclick = () => {
+            card.onclick = (event) => {
+                handleCardClick(event);
+                if (event.defaultPrevented) return;
                 playSound('click');
                 addToRecentlyPlayed(game);
             };
         }
 
+        const favKey = game.path || game.name;
         card.innerHTML = `
+            <button
+                class="favorite-btn"
+                data-fav-key="${favKey}"
+                data-fav-title="${game.name}"
+                data-fav-category="${game.category}"
+                data-fav-url="${game.path}"
+                aria-label="Favorite ${game.name}"
+                aria-pressed="false"
+                title="Toggle Favorite"
+            >★</button>
             <div class="game-card-content">
                 <span class="game-emoji">${game.emoji}</span>
                 <span class="game-name">${game.name}</span>
@@ -148,6 +174,17 @@ function renderGames(filter = '') {
 
         gamesGrid.appendChild(card);
     });
+
+    // Mark already-favorited games (stars filled gold)
+    if (typeof window.favoritesManager !== 'undefined') {
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            const key = btn.dataset.favKey;
+            if (key && window.favoritesManager.isFavorite(key)) {
+                btn.classList.add('favorited');
+                btn.setAttribute('aria-pressed', 'true');
+            }
+        });
+    }
 }
 
 // ==================== SEARCH FUNCTIONALITY ==================== //
@@ -221,15 +258,31 @@ function displayRecentlyPlayed() {
     
     recentlyPlayed.forEach((game, index) => {
         const card = document.createElement('a');
+        const favKey = game.path || game.name;
         card.href = game.path;
         card.className = 'game-card';
         card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
-        card.onclick = () => {
+        card.onclick = (event) => {
+            // Do not launch the game when the favorite star is clicked.
+            if (event.target.closest('.favorite-btn')) {
+                event.preventDefault();
+                return;
+            }
             playSound('click');
             addToRecentlyPlayed(game);
         };
         
         card.innerHTML = `
+            <button
+                class="favorite-btn"
+                data-fav-key="${favKey}"
+                data-fav-title="${game.name}"
+                data-fav-category="${game.category}"
+                data-fav-url="${game.path}"
+                aria-label="Favorite ${game.name}"
+                aria-pressed="false"
+                title="Toggle Favorite"
+            >★</button>
             <div class="game-card-content">
                 <span class="game-emoji">${game.emoji}</span>
                 <span class="game-name">${game.name}</span>

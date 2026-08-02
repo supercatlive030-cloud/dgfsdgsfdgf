@@ -125,12 +125,36 @@ function renderRecentlyPlayed() {
         return;
     }
     
-    container.innerHTML = recentlyPlayed.map(game => `
-        <a href="${game.path}" class="recently-played-card" onclick="trackGamePlay('${game.name}')">
+    container.innerHTML = recentlyPlayed.map((game) => {
+        const favKey = game.path || game.name;
+        return `
+        <a href="${game.path}" class="recently-played-card" onclick="if(event.target.closest && event.target.closest('.favorite-btn')){event.preventDefault();return false;} trackGamePlay('${game.name}')">
+            <button
+                class="favorite-btn"
+                data-fav-key="${favKey}"
+                data-fav-title="${game.name}"
+                data-fav-category="${game.category}"
+                data-fav-url="${game.path}"
+                aria-label="Favorite ${game.name}"
+                aria-pressed="false"
+                title="Toggle Favorite"
+            >★</button>
             <div class="recently-played-emoji">${game.emoji}</div>
             <div class="recently-played-name">${game.name}</div>
         </a>
-    `).join('');
+    `;
+    }).join('');
+
+    // Mark already-favorited recently played cards.
+    if (typeof window.favoritesManager !== 'undefined') {
+        container.querySelectorAll('.favorite-btn').forEach(btn => {
+            const key = btn.dataset.favKey;
+            if (key && window.favoritesManager.isFavorite(key)) {
+                btn.classList.add('favorited');
+                btn.setAttribute('aria-pressed', 'true');
+            }
+        });
+    }
 }
 
 // ==================== HOME PAGE ==================== //
@@ -193,14 +217,30 @@ function renderGames() {
 
     gamesData.forEach((game, index) => {
         const card = document.createElement('a');
+        const favKey = game.path || game.name;
         card.href = game.path;
         card.className = 'game-card';
         card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.05}s both`;
-        card.onclick = () => {
+        card.onclick = (event) => {
+            // Do not launch the game when the favorite star is clicked.
+            if (event.target.closest && event.target.closest('.favorite-btn')) {
+                event.preventDefault();
+                return;
+            }
             trackGamePlay(game.name);
         };
 
         card.innerHTML = `
+            <button
+                class="favorite-btn"
+                data-fav-key="${favKey}"
+                data-fav-title="${game.name}"
+                data-fav-category="${game.category}"
+                data-fav-url="${game.path}"
+                aria-label="Favorite ${game.name}"
+                aria-pressed="false"
+                title="Toggle Favorite"
+            >★</button>
             <div class="game-card-content">
                 <span class="game-emoji">${game.emoji}</span>
                 <span class="game-name">${game.name}</span>
@@ -210,6 +250,17 @@ function renderGames() {
 
         gamesGrid.appendChild(card);
     });
+
+    // Mark already-favorited games (stars filled gold)
+    if (typeof window.favoritesManager !== 'undefined') {
+        gamesGrid.querySelectorAll('.favorite-btn').forEach(btn => {
+            const key = btn.dataset.favKey;
+            if (key && window.favoritesManager.isFavorite(key)) {
+                btn.classList.add('favorited');
+                btn.setAttribute('aria-pressed', 'true');
+            }
+        });
+    }
 }
 
 // ==================== HELPERS ==================== //
