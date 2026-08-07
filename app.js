@@ -111,7 +111,28 @@ function trackGamePlay(gameName) {
         recentlyPlayed = recentlyPlayed.slice(0, 5);
         
         localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+
+        // Track play count for "Most Played" stats
+        incrementGamePlayCount(gameName);
     }
+}
+
+// ==================== GAME PLAY COUNTS ==================== //
+function getGamePlayCounts() {
+    try {
+        return JSON.parse(localStorage.getItem('gamePlayCounts')) || {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function incrementGamePlayCount(gameName) {
+    const counts = getGamePlayCounts();
+    counts[gameName] = (counts[gameName] || 0) + 1;
+    try {
+        localStorage.setItem('gamePlayCounts', JSON.stringify(counts));
+    } catch (e) {}
+    return counts[gameName];
 }
 
 function renderRecentlyPlayed() {

@@ -3,20 +3,274 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>diddys playhouse - Donation</title>
+  <title>diddys playhouse - Donation</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ==================== DONATION PAGE ==================== */
+    .donation-section {
+      max-width: 860px;
+      margin: 100px auto 4rem;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .donation-hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .donation-title {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-purple));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    .donation-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .donation-card {
+      background: rgba(20, 30, 60, 0.75);
+      border: 2px solid rgba(0, 217, 255, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .donation-label {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .donation-amounts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .donation-amount {
+      background: rgba(0, 217, 255, 0.06);
+      border: 2px solid rgba(0, 217, 255, 0.25);
+      border-radius: 12px;
+      padding: 1.2rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .donation-amount small {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    .donation-amount:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+    }
+
+    .donation-amount.selected {
+      border-color: var(--primary-color);
+      background: rgba(0, 217, 255, 0.18);
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.25);
+    }
+
+    .donation-custom {
+      margin-bottom: 1.5rem;
+    }
+
+    .donation-custom input {
+      width: 100%;
+      padding: 0.9rem;
+      background: rgba(10, 20, 50, 0.6);
+      border: 2px solid rgba(0, 217, 255, 0.25);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .donation-custom input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.25);
+    }
+
+    .donation-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .donation-field input {
+      width: 100%;
+      padding: 0.9rem;
+      background: rgba(10, 20, 50, 0.6);
+      border: 2px solid rgba(0, 217, 255, 0.25);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .donation-field input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.25);
+    }
+
+    .donation-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border: none;
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-weight: 800;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 24px rgba(0, 217, 255, 0.25);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donation-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 34px rgba(0, 217, 255, 0.4);
+    }
+
+    .donation-note {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 1.2rem;
+    }
+
+    .donation-status {
+      text-align: center;
+      margin-top: 1.2rem;
+      min-height: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    .donation-perks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .perk-card {
+      background: rgba(20, 30, 60, 0.6);
+      border: 2px solid rgba(0, 217, 255, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .perk-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary-color);
+      box-shadow: 0 12px 32px rgba(0, 217, 255, 0.2);
+    }
+
+    .perk-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .perk-card h4 {
+      color: var(--primary-color);
+      margin-bottom: 0.4rem;
+    }
+
+    .perk-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+/* ==================== RESPONSIVE (MOBILE) ==================== */
+    @media (max-width: 768px) {
+      .donation-section {
+        margin: 88px auto 2.5rem;
+        padding: 0 1.25rem;
+      }
+      .donation-title { font-size: 2.2rem; }
+      .donation-card { padding: 1.5rem; border-radius: 16px; }
+      .donation-subtitle { font-size: 1rem; }
+      .donation-amounts {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      .donation-amount { padding: 0.9rem 0.4rem; font-size: 1rem; }
+      .donation-row { grid-template-columns: 1fr; gap: 0.9rem; }
+      .donation-btn { font-size: 1.05rem; padding: 0.95rem; }
+      .donation-perks { grid-template-columns: 1fr; gap: 0.9rem; }
+      .perk-card { padding: 1.2rem; }
+    }
+
+    @media (max-width: 400px) {
+      .donation-section { padding: 0 1rem; }
+      .donation-title { font-size: 1.8rem; }
+      .donation-card { padding: 1.25rem; }
+      .donation-amount {
+        padding: 0.8rem 0.3rem;
+        font-size: 0.95rem;
+      }
+      .donation-amount small { font-size: 0.7rem; }
+      .donation-btn { font-size: 1rem; }
+    }
+  </style>
 </head>
 <body>
   <div class="background-particles"></div>
   <div class="background-glow"></div>
 
+  <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="logo">
         <span class="logo-icon">⚡</span>
-<span class="logo-text">diddys playhouse</span>
+        <span class="logo-text">diddys playhouse</span>
       </div>
       <div class="nav-controls">
+        <div class="theme-dropdown">
+          <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
+          <div class="theme-menu" id="themeMenu"></div>
+        </div>
         <a href="home.html" class="nav-link">🏠 Home</a>
         <a href="games.html" class="nav-link">🎮 Games</a>
         <a href="chat.html" class="nav-link">💬 Chat</a>
@@ -26,24 +280,130 @@
     </div>
   </nav>
 
-  <section class="hero" style="margin-top: 96px;">
-    <div class="hero-content" style="max-width: 980px;">
-      <h1 class="hero-title" style="font-size: 3rem;">Donation page unavailable</h1>
-      <p class="hero-subtitle" style="max-width: 720px; margin-left: auto; margin-right: auto;">
-        This page is currently unavailable due to maintenance. Please check back soon.
+  <section class="donation-section">
+    <div class="donation-hero">
+      <h1 class="donation-title">Support diddys playhouse 💜</h1>
+      <p class="donation-subtitle">
+        Your donation helps keep the platform free, running, and growing. Pick an amount below and click Donate to be taken to the secure payment page.
       </p>
+    </div>
 
+    <div class="donation-card">
+      <span class="donation-label">Choose an amount</span>
+      <div class="donation-amounts">
+        <div class="donation-amount" data-amount="1" onclick="selectAmount(this)">$1<small>One-time</small></div>
+        <div class="donation-amount" data-amount="5" onclick="selectAmount(this)">$5<small>One-time</small></div>
+        <div class="donation-amount selected" data-amount="10" onclick="selectAmount(this)">$10<small>One-time</small></div>
+        <div class="donation-amount" data-amount="25" onclick="selectAmount(this)">$25<small>One-time</small></div>
+      </div>
 
-      <div style="margin-top: 1.8rem; display: flex; justify-content: center;">
-        <a class="send-btn" style="text-align:center; text-decoration:none;" href="home.html">Go to Home</a>
+      <div class="donation-custom">
+        <span class="donation-label">Or enter a custom amount</span>
+        <input type="number" id="customAmount" min="1" step="0.01" placeholder="Custom amount (e.g. 15.50)" oninput="selectCustom()" />
+      </div>
+
+      <div class="donation-row">
+        <div class="donation-field">
+          <span class="donation-label">Your name (optional)</span>
+          <input type="text" id="donorName" placeholder="Name" maxlength="50" />
+        </div>
+        <div class="donation-field">
+          <span class="donation-label">Your email (optional)</span>
+          <input type="email" id="donorEmail" placeholder="Email" maxlength="100" />
+        </div>
+      </div>
+
+      <!-- ============================================================
+           DONATION LINK
+           Replace the URL below with your real donation/payment link.
+           Example: https://www.buymeacoffee.com/yourname
+                    https://ko-fi.com/yourname
+                    https://paypal.me/yourname
+           ============================================================ -->
+<a class="donation-btn" id="donateBtn" href="https://buymeacoffee.com/diddysplayhouse" onclick="return initiateDonation(event)">💜 Donate</a>
+
+      <div class="donation-status" id="donationStatus"></div>
+      <p class="donation-note">
+        🔒 Payments are processed securely on the external payment provider's site. We never store your card details.
+      </p>
+    </div>
+
+    <div class="donation-perks">
+      <div class="perk-card">
+        <span class="perk-icon">🚀</span>
+        <h4>Keep It Free</h4>
+        <p>Your support helps keep all games and features free for everyone.</p>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">⚡</span>
+        <h4>Better Servers</h4>
+        <p>Funds go toward hosting, new games, and smoother performance.</p>
+      </div>
+      <div class="perk-card">
+        <span class="perk-icon">💜</span>
+        <h4>A Big Thanks</h4>
+        <p>Every donation means a lot and helps the community grow.</p>
       </div>
     </div>
   </section>
 
   <script src="theme.js"></script>
+  <script src="auth.js"></script>
   <script src="ads.js"></script>
 
+  <script>
+    // ============================================================
+    // DONATION LINK CONFIGURATION
+    // Set this to your real donation / payment URL.
+    // The "Donate" button will open this link in a new tab.
+    // ============================================================
+const DONATION_LINK = 'https://buymeacoffee.com/diddysplayhouse';
+
+    let selectedAmount = 10;
+
+    function selectAmount(el) {
+      document.querySelectorAll('.donation-amount').forEach(a => a.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedAmount = parseFloat(el.getAttribute('data-amount')) || 0;
+      document.getElementById('customAmount').value = '';
+      document.getElementById('donationStatus').textContent = '';
+    }
+
+    function selectCustom() {
+      const val = parseFloat(document.getElementById('customAmount').value);
+      if (!isNaN(val) && val > 0) {
+        selectedAmount = val;
+        document.querySelectorAll('.donation-amount').forEach(a => a.classList.remove('selected'));
+        document.getElementById('donationStatus').textContent = '';
+      }
+    }
+
+    function initiateDonation(e) {
+      e.preventDefault();
+      const status = document.getElementById('donationStatus');
+
+      if (!DONATION_LINK || DONATION_LINK === '#' || DONATION_LINK.trim() === '') {
+        status.textContent = '⚠️ Donation link is not set up yet. Please check back soon.';
+        status.style.color = '#ff6b6b';
+        return false;
+      }
+
+      const amount = selectedAmount || parseFloat(document.getElementById('customAmount').value);
+      if (!amount || amount <= 0) {
+        status.textContent = '⚠️ Please choose or enter a valid amount.';
+        status.style.color = '#ff6b6b';
+        return false;
+      }
+
+      status.textContent = `💜 Thank you! Redirecting to complete your $${amount.toFixed(2)} donation...`;
+      status.style.color = 'var(--accent-green)';
+
+      setTimeout(() => {
+        window.open(DONATION_LINK, '_blank', 'noopener,noreferrer');
+      }, 600);
+
+      return false;
+    }
+  </script>
 </body>
 </html>
-
-

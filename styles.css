@@ -718,6 +718,111 @@ body {
     box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
 }
 
+/* ==================== ROADMAP (WHAT'S NEXT) ==================== */
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.roadmap-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.roadmap-card::before {
+    content: '';
+    position: absolute;
+    inset: -100%;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(185, 102, 255, 0.1));
+    transition: var(--transition);
+}
+
+.roadmap-card:hover::before {
+    inset: -50%;
+}
+
+.roadmap-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
+}
+
+.roadmap-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.roadmap-icon {
+    font-size: 2rem;
+}
+
+.roadmap-header h3 {
+    font-size: 1.2rem;
+}
+
+.roadmap-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+.roadmap-status {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+/* Status variants */
+.roadmap-status--progress {
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.45);
+    color: #ffd700;
+}
+
+.roadmap-status--soon {
+    background: rgba(0, 217, 255, 0.12);
+    border: 1px solid rgba(0, 217, 255, 0.45);
+    color: var(--primary-color);
+}
+
+.roadmap-status--planned {
+    background: rgba(185, 102, 255, 0.12);
+    border: 1px solid rgba(185, 102, 255, 0.45);
+    color: var(--accent-purple);
+}
+
+/* Card accent variants */
+.roadmap-card--progress {
+    border-color: rgba(255, 215, 0, 0.35);
+}
+
+.roadmap-card--soon {
+    border-color: rgba(0, 217, 255, 0.35);
+}
+
+.roadmap-card--planned {
+    border-color: rgba(185, 102, 255, 0.35);
+}
+
 /* ==================== STATS SECTION ==================== */
 .stats-section {
     display: grid;
@@ -857,6 +962,17 @@ body {
 .game-category {
     font-size: 0.8rem;
     color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.game-play-count {
+    font-size: 0.75rem;
+    color: var(--accent-green);
+    font-weight: 700;
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid rgba(57, 255, 20, 0.25);
+    border-radius: 20px;
+    padding: 0.2rem 0.7rem;
     transition: var(--transition);
 }
 
@@ -1398,6 +1514,100 @@ body {
 
 .username-toggle-switch.active .toggle-slider {
     left: 27px;
+}
+
+/* ==================== AI CHAT ASSISTANT ==================== */
+.ai-chat-box {
+    background: rgba(20, 30, 60, 0.6);
+    border: 2px solid rgba(0, 217, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    height: 460px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ai-message {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 85%;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.ai-message.ai-user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.ai-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.ai-bubble {
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+}
+
+.ai-user .ai-bubble {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(185, 102, 255, 0.15));
+    border-color: rgba(0, 217, 255, 0.35);
+}
+
+.ai-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.ai-text {
+    color: var(--text-primary);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.ai-typing {
+    color: var(--text-secondary);
+    font-style: italic;
+    animation: pulse-icon 1s ease-in-out infinite;
+}
+
+.ai-suggestions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.ai-suggestion-chip {
+    padding: 0.5rem 1rem;
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.ai-suggestion-chip:hover {
+    background: rgba(0, 217, 255, 0.2);
+    border-color: var(--primary-color);
+    transform: scale(1.05);
 }
 
 /* ==================== PROFILE CARDS ==================== */
@@ -2060,7 +2270,8 @@ body {
         height: 400px;
     }
 
-    .updates-grid {
+    .updates-grid,
+    .roadmap-grid {
         grid-template-columns: 1fr;
     }
 }

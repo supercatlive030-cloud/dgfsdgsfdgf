@@ -153,7 +153,8 @@ function renderGames(filter = '') {
             };
         }
 
-        const favKey = game.path || game.name;
+const favKey = game.path || game.name;
+        const playCount = getGamePlayCount(game.name);
         card.innerHTML = `
             <button
                 class="favorite-btn"
@@ -169,6 +170,7 @@ function renderGames(filter = '') {
                 <span class="game-emoji">${game.emoji}</span>
                 <span class="game-name">${game.name}</span>
                 <span class="game-category">${game.category}</span>
+                ${playCount > 0 ? `<span class="game-play-count">🎮 ${playCount} plays</span>` : ''}
             </div>
         `;
 
@@ -243,6 +245,21 @@ function addToRecentlyPlayed(game) {
     recentlyPlayed.unshift(game);
     recentlyPlayed = recentlyPlayed.slice(0, 10); // Keep only last 10
     localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+
+    // Track play count for "Most Played" stats
+    if (typeof window.incrementGamePlayCount === 'function') {
+        window.incrementGamePlayCount(game.name);
+    }
+}
+
+// ==================== GAME PLAY COUNTS ==================== //
+function getGamePlayCount(name) {
+    try {
+        const counts = JSON.parse(localStorage.getItem('gamePlayCounts')) || {};
+        return counts[name] || 0;
+    } catch (e) {
+        return 0;
+    }
 }
 
 function displayRecentlyPlayed() {

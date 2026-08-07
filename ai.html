@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>diddys playhouse - Chat</title>
+    <title>diddys playhouse - AI Assistant</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,16 +15,17 @@
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-icon">⚡</span>
-<span class="logo-text">diddys playhouse</span>
+                <span class="logo-text">diddys playhouse</span>
             </div>
             <div class="nav-controls">
                 <div class="theme-dropdown">
                     <button class="theme-btn" id="themeBtn" title="Change Theme">🎨</button>
                     <div class="theme-menu" id="themeMenu"></div>
                 </div>
-<a href="games.html" class="nav-link">🏠 Home</a>
+                <a href="home.html" class="nav-link">🏠 Home</a>
                 <a href="games.html" class="nav-link">🎮 Games</a>
-                <a href="ai.html" class="nav-link">🤖 AI</a>
+                <a href="chat.html" class="nav-link">💬 Chat</a>
+                <a href="ai.html" class="nav-link" style="color: var(--primary-color); font-weight: 700;">🤖 AI</a>
                 <a href="ideas.html" class="nav-link">💡 Ideas</a>
                 <a href="music.html" class="nav-link">🎵 Music</a>
                 <button class="logout-btn" onclick="logout()">Logout</button>
@@ -32,52 +33,45 @@
         </div>
     </nav>
 
-    <!-- Chat Section -->
     <div id="updateStatusBanner" style="margin: 0 auto; max-width: 1200px; padding: 0 2rem; position: relative; z-index: 10;">
         <div style="margin-top: 82px; background: rgba(0, 217, 255, 0.08); border: 1px solid rgba(0, 217, 255, 0.25); border-radius: 12px; padding: 1rem 1.25rem; color: var(--text-primary); font-weight: 700; text-align: center; backdrop-filter: blur(10px);">
-            Loading update status...
+            Assistant ready to help! 🚀
         </div>
     </div>
 
+    <!-- AI Chat Section -->
     <section class="chat-section">
         <div class="chat-container">
-            <h1 class="section-title">💬 Community Chat</h1>
-            
-            <div class="chat-box">
-                <div class="messages" id="messagesContainer"></div>
+            <h1 class="section-title">🤖 AI Chat Assistant</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem; text-align: center;">
+                Chat with the AI bot — ask for game recommendations, help, or just hang out!
+            </p>
+
+            <div class="ai-chat-box" id="aiMessagesContainer">
+                <!-- AI messages render here -->
+            </div>
+
+            <div class="ai-suggestions" id="aiSuggestions">
+                <button class="ai-suggestion-chip" onclick="setAIPrompt('recommend a game')">🎮 Recommend a game</button>
+                <button class="ai-suggestion-chip" onclick="setAIPrompt('how many games are there?')">❓ How many games?</button>
+                <button class="ai-suggestion-chip" onclick="setAIPrompt('tell me a joke')">😄 Tell me a joke</button>
+                <button class="ai-suggestion-chip" onclick="setAIPrompt('what can you do?')">🤖 What can you do?</button>
             </div>
 
             <div class="message-input-container">
-                <!-- Username Toggle -->
-                <div class="message-username-toggle">
-                    <div>
-                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Anonymous Mode</span>
-                        <div class="username-toggle-switch" id="usernameToggle">
-                            <div class="toggle-slider"></div>
-                        </div>
-                    </div>
-                    <input 
-                        type="text" 
-                        id="customUsername"
-                        placeholder="Enter your username..."
-                        maxlength="20"
-                        style="display: none; flex: 1; padding: 0.6rem; background: rgba(20, 30, 60, 0.6); border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 6px; color: var(--text-primary);"
-                    >
-                </div>
-
-                <form id="messageForm" onsubmit="sendMessage(event)">
-                    <input 
-                        type="text" 
-                        id="messageInput" 
-                        placeholder="Type a message..." 
-                        maxlength="200"
+                <form id="aiMessageForm" onsubmit="sendAIMessage(event)">
+                    <input
+                        type="text"
+                        id="aiMessageInput"
+                        placeholder="Ask the AI assistant anything..."
+                        maxlength="300"
                         required
                     >
-                    <button type="submit" class="send-btn">Send</button>
+                    <button type="submit" class="send-btn">Send 🤖</button>
                 </form>
             </div>
 
-            <button class="clear-chat-btn" onclick="clearChatHistory()">Clear Chat History</button>
+            <button class="clear-chat-btn" onclick="clearAIChat()">Clear AI Chat History</button>
         </div>
     </section>
 
@@ -88,7 +82,6 @@
                 <h2>🎨 Customize Theme</h2>
                 <button class="customizer-close">✕</button>
             </div>
-            
             <div class="color-picker-group">
                 <label class="color-picker-label">Primary Color (Accents & Glow)</label>
                 <div class="color-input-wrapper">
@@ -96,7 +89,6 @@
                     <div class="color-value" id="primaryDisplay">#00d9ff</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Secondary Color (Highlights)</label>
                 <div class="color-input-wrapper">
@@ -104,7 +96,6 @@
                     <div class="color-value" id="secondaryDisplay">#ff006e</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Green Accent</label>
                 <div class="color-input-wrapper">
@@ -112,7 +103,6 @@
                     <div class="color-value" id="greenDisplay">#39ff14</div>
                 </div>
             </div>
-
             <div class="color-picker-group">
                 <label class="color-picker-label">Purple Accent</label>
                 <div class="color-input-wrapper">
@@ -120,7 +110,6 @@
                     <div class="color-value" id="purpleDisplay">#b366ff</div>
                 </div>
             </div>
-
             <div class="customizer-actions">
                 <button class="customizer-btn customizer-save">💾 Save Theme</button>
                 <button class="customizer-btn customizer-reset">🔄 Reset</button>
@@ -130,37 +119,28 @@
 
     <script src="theme.js"></script>
     <script src="auth.js"></script>
-<script src="chat.js"></script>
-    <script src="updates_widget.js"></script>
-    <script src="panic.js"></script>
+    <script src="ai.js"></script>
 
     <script>
-        // Example sponsor boxes (replace the old quick button)
+        // Sponsor box
         (function () {
             if (document.getElementById('sponsorExampleBox')) return;
-
             var wrap = document.createElement('div');
             wrap.id = 'sponsorExampleBox';
             wrap.style.position = 'fixed';
-            wrap.style.top = '130px';
+            wrap.style.top = '140px';
             wrap.style.right = '16px';
             wrap.style.zIndex = '200001';
             wrap.style.width = '260px';
             wrap.style.pointerEvents = 'auto';
-
             wrap.innerHTML = [
               '<div style="margin-bottom:10px; padding:12px; border-radius:12px; background:rgba(10,14,39,0.88); border:1px solid rgba(0,217,255,0.25); backdrop-filter:blur(10px); box-shadow:0 10px 30px rgba(0,0,0,0.35);">',
               '<div style="color:#fff; font-weight:900; font-size:14px; margin-bottom:6px;">Do you want your ad here?</div>',
               '<a href="sponsor.html" target="_blank" rel="noopener noreferrer" style="display:inline-block; color:var(--primary-color); font-weight:800; text-decoration:none;">Click here to learn more →</a>',
               '</div>',
             ].join('');
-
-
             document.body.appendChild(wrap);
-
         })();
     </script>
 </body>
 </html>
-
-
