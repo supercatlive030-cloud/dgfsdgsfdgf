@@ -51,11 +51,22 @@
                 <!-- AI messages render here -->
             </div>
 
-            <div class="ai-suggestions" id="aiSuggestions">
+<div class="ai-suggestions" id="aiSuggestions">
                 <button class="ai-suggestion-chip" onclick="setAIPrompt('recommend a game')">🎮 Recommend a game</button>
                 <button class="ai-suggestion-chip" onclick="setAIPrompt('how many games are there?')">❓ How many games?</button>
                 <button class="ai-suggestion-chip" onclick="setAIPrompt('tell me a joke')">😄 Tell me a joke</button>
                 <button class="ai-suggestion-chip" onclick="setAIPrompt('what can you do?')">🤖 What can you do?</button>
+                <button class="ai-suggestion-chip" onclick="setAIPrompt('what games are there?')">🎮 List games</button>
+            </div>
+
+            <div style="text-align:center; margin: 0.5rem 0 1rem;">
+                <span style="color: var(--text-secondary); font-size: 0.85rem;">
+                    🧠 I know <strong id="aiKnowledgeCount">0</strong> things about diddys playhouse!
+                </span>
+                <br>
+                <span style="color: var(--text-secondary); font-size: 0.8rem;">
+                    Teach me something new: <code style="color: var(--primary-color);">learn: your question | the answer</code>
+                </span>
             </div>
 
             <div class="message-input-container">
@@ -71,7 +82,12 @@
                 </form>
             </div>
 
-            <button class="clear-chat-btn" onclick="clearAIChat()">Clear AI Chat History</button>
+<button class="clear-chat-btn" onclick="clearAIChat()">Clear AI Chat History</button>
+
+            <div style="text-align:center; margin-top: 1rem;">
+                <button class="clear-chat-btn" onclick="viewSharedKnowledge()">🌐 View Shared Knowledge (All Users)</button>
+            </div>
+            <div id="aiSharedKnowledgeList" style="margin-top: 1rem; background: rgba(10,14,39,0.55); border: 1px solid rgba(0,217,255,0.2); border-radius: 12px; padding: 0 1.25rem; max-height: 260px; overflow-y: auto;"></div>
         </div>
     </section>
 
@@ -117,9 +133,21 @@
         </div>
     </div>
 
+<!-- Firebase SDK (for cloud-shared AI knowledge across all users) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
     <script src="theme.js"></script>
     <script src="auth.js"></script>
     <script src="ai.js"></script>
+
+    <script>
+        // Initialize Firebase AFTER ai.js loads (it sets window.FIREBASE_CONFIG).
+        // If not configured, the AI simply uses local-only knowledge.
+        if (window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.apiKey && window.FIREBASE_CONFIG.apiKey.indexOf('YOUR_API_KEY') === -1) {
+            window.firebase.initializeApp(window.FIREBASE_CONFIG);
+        }
+    </script>
 
     <script>
         // Sponsor box
