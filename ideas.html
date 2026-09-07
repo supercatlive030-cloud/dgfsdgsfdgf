@@ -40,7 +40,7 @@
 
       <h1 class="section-title" style="margin-bottom: 1rem;">💡 Ideas for Updates</h1>
       <p style="margin-top: -0.25rem; margin-bottom: 1rem; color: var(--text-secondary);">
-        Your submissions are saved locally in your browser under <code>ideaSubmissions</code> (so you can view them here).
+        Your submissions are saved to the shared ideas list so they can be seen from any device.
       </p>
 
       <div class="chat-box" style="height: auto;">
@@ -101,15 +101,27 @@
 
   <script>
     const STORAGE_KEY = 'ideaSubmissions';
+    const IDEAS_API = '/api/ideas';
 
-    function loadIdeas() {
+    async function getIdeas() {
+      try {
+        const response = await fetch(IDEAS_API, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Shared ideas are unavailable');
+        return await response.json();
+      } catch (e) {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (storageError) {
+          return [];
+        }
+      }
+    }
+
+    async function loadIdeas() {
       const list = document.getElementById('ideasList');
       if (!list) return;
 
-      let ideas = [];
-      try {
-        ideas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (e) {}
+      const ideas = await getIdeas();
 
       if (ideas.length === 0) {
         list.innerHTML = '<div class="empty-chat">No ideas submitted yet. Be the first!</div>';
@@ -141,13 +153,24 @@
         .join('');
     }
 
-    function saveIdea(idea) {
-      let ideas = [];
+    async function saveIdea(idea) {
       try {
-        ideas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-      } catch (e) {}
-      ideas.push(idea);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas));
+        const response = await fetch(IDEAS_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(idea)
+        });
+        if (!response.ok) throw new Error('Shared ideas are unavailable');
+        return true;
+      } catch (e) {
+        let ideas = [];
+        try {
+          ideas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (storageError) {}
+        ideas.push(idea);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas));
+        return false;
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -169,10 +192,13 @@
           timestamp: Date.now()
         };
 
-        saveIdea(idea);
+        saveIdea(idea).then((shared) => {
+          status.textContent = shared
+            ? 'Saved for everyone to see. Thanks for the idea!'
+            : 'Saved on this device only. The shared server is unavailable.';
+          loadIdeas();
+        });
         form.reset();
-        status.textContent = 'Saved! Thanks for the idea.';
-        loadIdeas();
 
         setTimeout(() => {
           status.textContent = '';

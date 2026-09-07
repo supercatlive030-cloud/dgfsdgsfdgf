@@ -3,6 +3,16 @@
 
   const DEFAULT_UPDATES = [
     {
+      id: 'update-ai-assistant',
+      icon: '🤖',
+      title: 'New AI assistant',
+      message: 'Meet the new AI Assistant! Ask for game recommendations, learn about diddys playhouse, tell jokes, teach it new answers, and keep your chat history saved to your profile.',
+      dateText: 'New',
+      createdAt: Date.now(),
+      showIn: 'both',
+      variant: 'blue'
+    },
+    {
       id: 'update-new-games',
       icon: '🎮',
       title: 'New games added',

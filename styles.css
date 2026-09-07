@@ -718,6 +718,92 @@ body {
     box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
 }
 
+.changelog-list {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==================== FEATURED GAMES ==================== */
+.game-featured-tag {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.45);
+    color: #ffd700;
+}
+
+.featured-game-card {
+    border-color: rgba(255, 215, 0, 0.35);
+}
+
+.featured-game-card:hover {
+    border-color: #ffd700;
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.18);
+}
+
+.changelog-card {
+    background: rgba(20, 30, 60, 0.75);
+    border: 2px solid rgba(0, 217, 255, 0.2);
+    border-radius: 18px;
+    padding: 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.changelog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.changelog-version {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--primary-color);
+}
+
+.changelog-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.changelog-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.changelog-group {
+    background: rgba(9, 14, 35, 0.7);
+    border: 1px solid rgba(0, 217, 255, 0.18);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.changelog-group h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.changelog-group ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
 /* ==================== ROADMAP (WHAT'S NEXT) ==================== */
 .roadmap-grid {
     display: grid;

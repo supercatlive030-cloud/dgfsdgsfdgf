@@ -59,15 +59,18 @@
           <div style="margin: 1.2rem 0 1.2rem; padding: 1rem; border-radius: 12px; background: rgba(0, 217, 255, 0.06); border: 1px solid rgba(0, 217, 255, 0.18);">
             <div style="color: var(--primary-color); font-weight: 900; margin-bottom: 0.5rem;">🧾 Update Requests (local)</div>
             <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.9rem;">
-              These are stored in <code>ideaSubmissions</code> in <b>your current browser only</b>. You can delete all or delete individual submissions.
+              These are stored in the shared <code>ideas.json</code> file on the server. You can email or delete all submissions.
             </div>
 
             <div style="display:flex; gap: 12px; align-items:center; justify-content:space-between; margin-bottom: 0.8rem; flex-wrap:wrap;">
               <div style="font-weight:900; color: var(--text-primary);">
                 Count: <span id="adminIdeaSubmissionsCount">0</span>
               </div>
+              <button type="button" class="back-btn" onclick="adminEmailIdeaSubmissions()">
+                Email All Ideas
+              </button>
               <button type="button" class="back-btn" style="border-color: rgba(255, 107, 107, 0.35); color: #ff6b6b;" onclick="adminDeleteUpdateSubmissions()">
-                Delete All Local
+                Delete All Shared
               </button>
             </div>
 
@@ -96,6 +99,17 @@
               .admin-submission-text{color: var(--text-primary); font-weight: 700; margin-top: 6px; word-break: break-word;}
               .admin-submission-actions{margin-top: 10px; display:flex; justify-content:flex-end;}
             </style>
+          </div>
+
+          <div style="margin: 1.2rem 0; padding: 1rem; border-radius: 12px; background: rgba(57, 255, 20, 0.06); border: 1px solid rgba(57, 255, 20, 0.22);">
+            <div style="display:flex; gap: 12px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom: 0.8rem;">
+              <div style="color: var(--primary-color); font-weight: 900;">🧪 Game URL Health Check</div>
+              <button type="button" id="checkGameUrlsBtn" class="back-btn" style="border-color: rgba(57, 255, 20, 0.35); color: #9ef59d;">Check All Games</button>
+            </div>
+            <div id="gameHealthSummary" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.8rem;">
+              No checks run yet.
+            </div>
+            <div id="gameHealthReport" style="display:grid; gap: 0.6rem;"></div>
           </div>
 
           <form id="adForm">

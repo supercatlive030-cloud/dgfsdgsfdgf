@@ -38,6 +38,14 @@
     return [];
   }
 
+  async function loadSharedIdeaSubmissions() {
+    const response = await fetch('/api/ideas', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Shared ideas are unavailable');
+    const ideas = await response.json();
+    if (!Array.isArray(ideas)) throw new Error('Invalid shared ideas response');
+    return ideas;
+  }
+
   function normalizeSubmission(submission) {
     if (!submission || typeof submission !== 'object') {
       return {
@@ -74,14 +82,60 @@
 
 
 
-  function deleteIdeaSubmissionsAll() {
+  async function deleteIdeaSubmissionsAll() {
     localStorage.removeItem(IDEA_SUBMISSIONS_KEY);
+    const response = await fetch('/api/ideas', { method: 'DELETE' });
+    if (!response.ok) throw new Error('Could not delete shared ideas');
   }
 
-  function deleteIdeaSubmissionById(id) {
+  async function deleteIdeaSubmissionById(id) {
     const submissions = loadIdeaSubmissions().map(normalizeSubmission);
     const filtered = submissions.filter(s => String(s.id) !== String(id));
     localStorage.setItem(IDEA_SUBMISSIONS_KEY, JSON.stringify(filtered));
+    const response = await fetch(`/api/ideas?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Could not delete shared idea');
+  }
+
+  async function emailIdeaSubmissions() {
+    let submissions;
+    try {
+      submissions = (await loadSharedIdeaSubmissions()).map(normalizeSubmission);
+    } catch (error) {
+      submissions = loadIdeaSubmissions().map(normalizeSubmission);
+    }
+    const resultEl = document.getElementById('adminUpdateDeleteResult');
+
+    if (submissions.length === 0) {
+      if (resultEl) {
+        resultEl.textContent = 'There are no ideas to email yet.';
+        resultEl.style.display = 'block';
+      }
+      return;
+    }
+
+    const savedEmail = localStorage.getItem('ideaEmailRecipient') || '';
+    const recipient = window.prompt('What email address should receive the ideas?', savedEmail);
+    if (recipient === null) return;
+
+    const email = recipient.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      window.alert('Please enter a valid email address.');
+      return;
+    }
+
+    localStorage.setItem('ideaEmailRecipient', email);
+    const body = submissions
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+      .map((submission, index) => {
+        const date = formatDate(submission.createdAt);
+        const title = submission.title || 'Untitled';
+        const link = submission.link ? `\nLink: ${submission.link}` : '';
+        return `${index + 1}. ${title}\nSubmitted: ${date}\n${submission.text}${link}`;
+      })
+      .join('\n\n--------------------\n\n');
+
+    const subject = `Ideas for diddys playhouse (${submissions.length})`;
+    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   function formatDate(ts) {
@@ -96,14 +150,19 @@
     return String(str).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '<', '>': '>', '"': '"' }[c]));
   }
 
-  function renderIdeaSubmissions() {
+  async function renderIdeaSubmissions() {
     const listEl = document.getElementById('adminIdeaSubmissionsList');
     const countEl = document.getElementById('adminIdeaSubmissionsCount');
     const emptyEl = document.getElementById('adminIdeaSubmissionsEmpty');
 
     if (!listEl || !countEl || !emptyEl) return;
 
-    const submissions = loadIdeaSubmissions().map(normalizeSubmission);
+    let submissions;
+    try {
+      submissions = (await loadSharedIdeaSubmissions()).map(normalizeSubmission);
+    } catch (error) {
+      submissions = loadIdeaSubmissions().map(normalizeSubmission);
+    }
 
     countEl.textContent = String(submissions.length);
 
@@ -148,22 +207,40 @@
   }
 
   // Expose for onclick handlers
-  window.adminDeleteUpdateSubmissions = function () {
-    if (!confirm('Delete update submissions stored in this browser? (local only)')) return;
-    deleteIdeaSubmissionsAll();
+  window.adminDeleteUpdateSubmissions = async function () {
+    if (!confirm('Delete all shared idea submissions?')) return;
+    try {
+      await deleteIdeaSubmissionsAll();
+    } catch (error) {
+      const el = document.getElementById('adminUpdateDeleteResult');
+      if (el) {
+        el.textContent = 'Could not delete shared ideas. Is the server running?';
+        el.style.display = 'block';
+      }
+      return;
+    }
     // Optionally set banner back to "working" so users don’t think it was ignored.
     setStatus('working');
     const el = document.getElementById('adminUpdateDeleteResult');
     if (el) {
-      el.textContent = 'Deleted local submissions. Banner set to working.';
+      el.textContent = 'Deleted shared submissions. Banner set to working.';
       el.style.display = 'block';
     }
     renderIdeaSubmissions();
   };
 
-  window.adminDeleteIdeaSubmission = function (id) {
-    if (!confirm('Delete this single submission from this browser only?')) return;
-    deleteIdeaSubmissionById(id);
+  window.adminDeleteIdeaSubmission = async function (id) {
+    if (!confirm('Delete this shared idea submission?')) return;
+    try {
+      await deleteIdeaSubmissionById(id);
+    } catch (error) {
+      const el = document.getElementById('adminUpdateDeleteResult');
+      if (el) {
+        el.textContent = 'Could not delete the shared idea. Is the server running?';
+        el.style.display = 'block';
+      }
+      return;
+    }
     setStatus('working');
     const el = document.getElementById('adminUpdateDeleteResult');
     if (el) {
@@ -172,6 +249,8 @@
     }
     renderIdeaSubmissions();
   };
+
+  window.adminEmailIdeaSubmissions = emailIdeaSubmissions;
 
   // Load on admin page
   window.adminRenderIdeaSubmissions = function () {

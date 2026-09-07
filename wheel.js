@@ -126,26 +126,57 @@
     wheel.style.transition = 'transform 4.5s cubic-bezier(0.12, 0.8, 0.2, 1)';
     wheel.style.transform = 'rotate(' + target + 'deg)';
 
+    // Play a tick sound as segments pass the pointer.
+    startTicks();
+
     setTimeout(function () {
       spinning = false;
       if (spinBtn) spinBtn.disabled = false;
 
       var game = games[randomIndex];
-      try {
-        if (typeof window.addToRecentlyPlayed === 'function') window.addToRecentlyPlayed(game);
-        if (typeof window.trackGamePlay === 'function') window.trackGamePlay(game.name);
-      } catch (e) {}
       showResultPopup(game);
     }, 4700);
   }
 
+  // ---- Wheel tick sound (WebAudio, no files needed) ----
+  var tickTimer = null;
+  function startTicks() {
+    stopTicks();
+    var ticks = 40;
+    var interval = 4500 / ticks;
+    var elapsed = 0;
+    tickTimer = setInterval(function () {
+      elapsed += interval;
+      playTick();
+      if (elapsed >= 4500) stopTicks();
+    }, interval);
+  }
+  function stopTicks() {
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
+  }
+  function playTick() {
+    try {
+      var ctx = playTick._ctx || (playTick._ctx = new (window.AudioContext || window.webkitAudioContext)());
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.06);
+    } catch (e) { /* ignore */ }
+  }
+
   function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '<', '>': '>', '"': '"', "'": '&#039;' }[c];
+      return { '&': '\u0026amp;', '<': '\u0026lt;', '>': '\u0026gt;', '"': '\u0026quot;', "'": '\u0026#039;' }[c];
     });
   }
 
-function showResultPopup(game) {
+  function showResultPopup(game) {
+    stopTicks();
     var existing = document.getElementById('wheelResultPopup');
     if (existing) existing.remove();
 
@@ -159,27 +190,25 @@ function showResultPopup(game) {
     popup.innerHTML =
       '<div style="font-size:3rem;margin-bottom:0.5rem;">' + (game.emoji || '🎮') + '</div>' +
       '<h2 style="color:#00d9ff;font-size:1.5rem;margin-bottom:0.3rem;">' + escapeHtml(game.name) + '</h2>' +
-      '<p style="color:rgba(255,255,255,0.6);font-size:0.95rem;margin-bottom:1.5rem;">The wheel landed on this game!<br><span style="font-size:0.8rem;opacity:0.7;">Launching in 3...</span></p>';
+      '<p style="color:rgba(255,255,255,0.6);font-size:0.95rem;margin-bottom:1.5rem;">The wheel landed on this game!</p>' +
+      '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">' +
+      '  <button id="wheelPlayBtn" style="padding:0.8rem 1.8rem;background:linear-gradient(135deg,#00d9ff,#ff006e);border:none;border-radius:10px;color:#fff;font-weight:800;font-size:1rem;cursor:pointer;">▶ Play Now</button>' +
+      '  <button id="wheelAgainBtn" style="padding:0.8rem 1.8rem;background:transparent;border:2px solid rgba(0,217,255,0.4);border-radius:10px;color:#a0a0b0;font-weight:700;cursor:pointer;">🎡 Spin Again</button>' +
+      '</div>';
 
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
 
-    var countdown = 3;
-    var countdownEl = popup.querySelector('span');
-    var timer = setInterval(function () {
-      countdown--;
-      if (countdownEl) countdownEl.textContent = 'Launching in ' + countdown + '...';
-      if (countdown <= 0) {
-        clearInterval(timer);
-        window.location.href = game.path;
-      }
-    }, 1000);
+    popup.querySelector('#wheelPlayBtn').addEventListener('click', function () {
+      window.location.href = game.path;
+    });
+    popup.querySelector('#wheelAgainBtn').addEventListener('click', function () {
+      overlay.remove();
+      spinRandomWheel();
+    });
 
     overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) {
-        clearInterval(timer);
-        overlay.remove();
-      }
+      if (e.target === overlay) overlay.remove();
     });
   }
 
@@ -210,4 +239,3 @@ function showResultPopup(game) {
   window.closeRandomWheel = closeRandomWheel;
   window.spinRandomWheel = spinRandomWheel;
 })();
-

@@ -41,10 +41,10 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">🚀 What's Coming</h1>
-            <p class="hero-subtitle">A look at the updates, features, and releases we're working on.</p>
+            <h1 class="hero-title">� Site Changelog</h1>
+            <p class="hero-subtitle">Version history, release notes, and the latest improvements to diddys playhouse.</p>
             <p style="max-width: 800px; margin: 1rem auto 0; color: var(--text-secondary); line-height: 1.75;">
-                These are the next things headed to diddys playhouse. Things can change, and new ideas are always welcome — submit yours on the Ideas page!
+                Updated: <strong>2026-08-09</strong> · Keep an eye on this page for the latest features, fixes, and new games added to the library.
             </p>
             <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: 20px;">
                 <button class="featured-btn" onclick="document.location='ideas.html'">💡 Submit an Idea</button>
@@ -53,64 +53,8 @@
     </section>
 
     <section class="updates-section">
-        <h2 class="section-title">🛣️ Upcoming Releases</h2>
-        <div class="roadmap-grid">
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">🤖</span>
-                    <h3>AI Chat Assistant</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>An AI chatbox where anyone can chat with the bot — ask questions, get help, or just chat. Coming to the chat page soon!</p>
-            </div>
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">📊</span>
-                    <h3>Game Play Counts</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>Display how many times each game has been played so you can see the most popular games on the site.</p>
-            </div>
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">🚨</span>
-                    <h3>Panic Button</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>A quick red alert button that instantly redirects to a safe page (like Google) if a teacher walks by. Just in case! 😉</p>
-            </div>
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">🎨</span>
-                    <h3>More Customization</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>More themes, custom accent colors, and settings to make the site feel truly yours — including a way to customize the panic button.</p>
-            </div>
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">💬</span>
-                    <h3>Per-Profile Chat Histories</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>Give each profile its own separate chat message history so everyone's conversations stay organized and personal.</p>
-            </div>
-
-            <div class="roadmap-card roadmap-card--soon">
-                <div class="roadmap-header">
-                    <span class="roadmap-icon">📧</span>
-                    <h3>Email Idea Notifications</h3>
-                </div>
-                <span class="roadmap-status roadmap-status--soon">🔜 Coming Soon</span>
-                <p>Send idea submissions straight to the creator's email through Google Forms, so no idea ever gets missed.</p>
-            </div>
-
-        </div>
+        <h2 class="section-title">📦 Release Notes</h2>
+        <div id="changelogList" class="changelog-list"></div>
     </section>
 
     <div id="customizerModal" class="customizer-modal">
@@ -156,8 +100,9 @@
 
     <script src="theme.js"></script>
     <script src="auth.js"></script>
-<script src="app.js"></script>
-<script src="updates_widget.js"></script>
-<script src="panic.js"></script>
+    <script src="app.js"></script>
+    <script src="changelog.js"></script>
+    <script src="updates_widget.js"></script>
+    <script src="panic.js"></script>
 </body>
 </html>

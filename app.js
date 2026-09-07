@@ -195,17 +195,20 @@ function setupHomePage() {
 
 function updateStats() {
     const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    const activePlayers = (window.siteActivity && typeof window.siteActivity.getActivePlayers === 'function')
+        ? window.siteActivity.getActivePlayers()
+        : 0;
 
     if (document.getElementById('totalPlayers')) {
-        document.getElementById('totalPlayers').textContent = '∞';
+        document.getElementById('totalPlayers').textContent = String(activePlayers || 0);
     }
 
     if (document.getElementById('messageCount')) {
-        document.getElementById('messageCount').textContent = messages.length || '0';
+        document.getElementById('messageCount').textContent = String(messages.length || 0);
     }
 
     if (document.getElementById('gameCount')) {
-        document.getElementById('gameCount').textContent = gamesData.length || '0';
+        document.getElementById('gameCount').textContent = String(gamesData.length || 0);
     }
 }
 
