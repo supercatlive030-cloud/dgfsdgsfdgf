@@ -1,0 +1,9 @@
+node_modules/
+
+# Local runtime and deployment files
+*.log
+.env
+.env.*
+
+# Local shared submissions should not be committed
+ideas.json
