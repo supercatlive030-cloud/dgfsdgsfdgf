@@ -1,0 +1,9 @@
+name = "michaels-learning-community"
+main = "cloudflare-proxy-worker.js"
+compatibility_date = "2025-09-13"
+workers_dev = true
+
+# Keep the static website in the existing project root, while letting .assetsignore
+# prevent generated install/build folders like node_modules and .wrangler from
+# being uploaded as assets.
+assets = { directory = "./", binding = "ASSETS" }
